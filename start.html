@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MeldGeluidsoverlast — Eindhoven Airport</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ffb800">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MeldGeluidsoverlast">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiNmZmI4MDAiLz48cGF0aCBmaWxsPSIjMWExMzAwIiBkPSJNMzIgMTNsNCAxOCAxNCA2LTE0IDQtNCAxMi00LTEyLTE0LTQgMTQtNnoiLz48L3N2Zz4=">
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiNmZmI4MDAiLz48cGF0aCBmaWxsPSIjMWExMzAwIiBkPSJNMzIgMTNsNCAxOCAxNCA2LTE0IDQtNCAxMi00LTEyLTE0LTQgMTQtNnoiLz48L3N2Zz4=">
+<meta name="description" content="MeldGeluidsoverlast — kies een type en stuur de melding direct naar Eindhoven Airport.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MeldGeluidsoverlast">
+<meta property="og:title" content="MeldGeluidsoverlast — Eindhoven Airport">
+<meta property="og:description" content="Kies type en verstuur de melding direct.">
+<meta property="og:url" content="https://meldgeluidsoverlast.nl/start.html">
+<meta name="twitter:card" content="summary">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#0e1320;color:#e8eef9;font:16px/1.55 -apple-system,BlinkMacSystemFont,sans-serif;min-height:100vh}
+  .wrap{max-width:480px;margin:0 auto;padding:22px 18px 50px}
+  .ic{font-size:54px;text-align:center;margin-bottom:4px}
+  h1{margin:0 0 6px;color:#ffb800;font-size:26px;text-align:center;font-weight:800}
+  .lead{text-align:center;color:#9aa6bd;margin:0 0 8px;font-size:14px}
+  .pickhint{background:rgba(255,184,0,.10);border:1px solid rgba(255,184,0,.35);border-radius:12px;padding:12px;margin:14px 0 14px;font-size:14px;color:#ffd76a;text-align:center;line-height:1.5}
+  .pickhint strong{color:#ffb800;display:block;margin-bottom:2px;font-size:15px}
+  .btn{display:flex;align-items:center;gap:14px;width:100%;border:0;border-radius:14px;padding:16px;font-size:16px;font-weight:800;cursor:pointer;text-align:left;text-decoration:none;margin-bottom:10px;line-height:1.2}
+  .btn:active{transform:translateY(1px)}
+  .btn .em{font-size:28px;flex:0 0 auto}
+  .btn .ttl{flex:1}
+  .btn .ttl small{display:block;font-size:12px;font-weight:600;opacity:.95;margin-top:2px}
+  .btn-primary{background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;box-shadow:0 4px 16px rgba(34,197,94,.4);animation:glowGreen 1.8s ease-in-out infinite}
+  @keyframes glowGreen{0%,100%{transform:scale(1);box-shadow:0 4px 16px rgba(34,197,94,.4)}50%{transform:scale(1.015);box-shadow:0 6px 22px rgba(34,197,94,.6)}}
+  .btn-secondary{background:#161d2f;color:#e8eef9;border:1px solid #243150}
+  .btn-pwa{background:linear-gradient(135deg,#2563eb,#3b82f6);color:#fff;box-shadow:0 4px 16px rgba(59,130,246,.4);animation:glowBlue 1.8s ease-in-out infinite}
+  @keyframes glowBlue{0%,100%{transform:scale(1);box-shadow:0 4px 16px rgba(59,130,246,.4)}50%{transform:scale(1.015);box-shadow:0 6px 22px rgba(59,130,246,.6)}}
+  .hidden{display:none !important}
+  .ok{background:rgba(34,197,94,.10);border:1px solid rgba(34,197,94,.4);border-radius:10px;padding:10px;color:#22c55e;font-size:13px;text-align:center;margin-bottom:12px}
+  .info-card{background:#161d2f;border:1px solid #243150;border-radius:14px;padding:16px;margin:18px 0;font-size:13px;color:#cfd8ec;line-height:1.55}
+  .info-card strong{color:#ffb800}
+  .info-card p{margin:0 0 6px}
+  .info-card p:last-child{margin:0}
+  .ff-card{background:linear-gradient(135deg,#ff9f00,#ff6b00);color:#fff;border:0;border-radius:16px;padding:18px;margin:14px 0;box-shadow:0 6px 20px rgba(255,107,0,.4)}
+  .ff-card h3{margin:0 0 10px;font-size:16px;text-align:center}
+  .ff-card .ff-step{display:flex;align-items:center;gap:10px;margin:6px 0;font-size:14px}
+  .ff-card .ff-num{flex:0 0 24px;height:24px;border-radius:50%;background:rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+  .ff-card .ff-key{display:inline-block;background:rgba(0,0,0,.3);padding:2px 8px;border-radius:6px;font-weight:800;font-family:ui-monospace,Menlo,monospace}
+  .arrow{font-size:26px;text-align:center;animation:bounce 1.2s infinite;margin:2px 0 6px}
+  @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .card{background:#161d2f;border:1px solid #243150;border-radius:14px;padding:16px;margin-top:14px}
+  .card h3{margin:0 0 6px;color:#ffb800;font-size:13px;text-transform:uppercase;letter-spacing:.04em}
+  .card p{margin:5px 0;color:#cfd8ec;font-size:14px}
+  .card a{color:#ffb800}
+  small{color:#9aa6bd;font-size:12px;display:block;text-align:center;margin-top:14px}
+  .reset-link{display:inline-block;color:#9aa6bd;font-size:13px;text-decoration:underline;margin-top:6px}
+  .ff-warn{display:none;background:#dc2626;color:#fff;border-radius:14px;padding:18px 20px;margin-bottom:18px;border:3px solid #fca5a5;animation:pulseRed 1.6s ease-in-out infinite}
+  .ff-warn.show{display:block}
+  .ff-warn h2{margin:0 0 8px;font-size:18px;color:#fff}
+  .ff-warn p{margin:6px 0;font-size:14px;color:#fff}
+  .ff-warn a.btn-ff{display:inline-block;background:#fff;color:#dc2626;padding:12px 18px;border-radius:10px;text-decoration:none;font-weight:bold;font-size:15px;margin-top:10px}
+  @keyframes pulseRed{0%,100%{transform:scale(1);box-shadow:0 0 0 rgba(220,38,38,.4)}50%{transform:scale(1.015);box-shadow:0 0 24px rgba(220,38,38,.7)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="ic">✈️</div>
+  <h1>MeldGeluidsoverlast</h1>
+  <p class="lead">Eindhoven Airport — automatische geluidsmelder</p>
+
+  <div class="ff-warn" id="ffWarn">
+    <h2>⚠️ Open deze pagina eerst in Firefox</h2>
+    <p>Je gebruikt nu Chrome. Op Android werkt het Meld-script alleen in Firefox — Chrome ondersteunt geen userscripts.</p>
+    <p>Tap onderstaande knop om deze pagina in Firefox te heropenen.</p>
+    <a class="btn-ff" id="ffOpenBtn" href="#">▶️ Heropen in Firefox</a>
+  </div>
+
+  <div class="pickhint">
+    <strong>👇 Kies een type melding</strong>
+    De rest gaat automatisch — datum, tijd en oorzaak worden voor je ingevuld en de melding wordt verzonden.
+  </div>
+
+  <div class="ok hidden" id="installed-banner">✓ MeldGeluidsoverlast staat op je startscherm.</div>
+  <div class="ok hidden" id="reset-banner">✓ Reset gelukt — installatiestatus is gewist.</div>
+
+  <a class="btn btn-primary klachtbtn" data-href="https://ein.flighttracking.casper.aero/portal/?klachtnu=1&sub=2">
+    <span class="em">🏠</span>
+    <span class="ttl">Geluid in huis<small>Vliegtuig hoorbaar binnen — meest gebruikt</small></span>
+  </a>
+
+  <a class="btn btn-secondary klachtbtn" data-href="https://ein.flighttracking.casper.aero/portal/?klachtnu=1&sub=3">
+    <span class="em">🌳</span>
+    <span class="ttl">Geluid buiten<small>Vliegtuig hoorbaar in tuin / op straat</small></span>
+  </a>
+
+  <a class="btn btn-secondary klachtbtn" data-href="https://ein.flighttracking.casper.aero/portal/?klachtnu=1&sub=1">
+    <span class="em">🌙</span>
+    <span class="ttl">Slaapverstoring<small>Wakker geworden / niet kunnen slapen</small></span>
+  </a>
+
+  <button class="btn btn-pwa hidden" id="installBtn">
+    <span class="em">📥</span>
+    <span class="ttl">Toevoegen aan startscherm<small>Daarna 1 tap op icoon = type-keuze</small></span>
+  </button>
+
+  <div class="ff-card hidden" id="ffCard">
+    <div class="arrow">⬆️</div>
+    <h3>Toevoegen aan startscherm</h3>
+    <div class="ff-step"><div class="ff-num">1</div>Tik op <span class="ff-key">⋮</span> rechtsboven</div>
+    <div class="ff-step"><div class="ff-num">2</div>Kies <strong>Toevoegen aan startscherm</strong></div>
+    <div class="ff-step"><div class="ff-num">3</div>In pop-up: tap <strong>Toevoegen</strong></div>
+    <div class="ff-step"><div class="ff-num">4</div>Pixel-scherm: tap onderin <strong>Toevoegen aan startscherm</strong></div>
+    <div class="ff-step"><div class="ff-num">5</div>Klaar ✨ — icoon staat erop</div>
+  </div>
+
+  <div class="card hidden" id="manualInstall">
+    <h3>Toevoegen aan startscherm</h3>
+    <p><strong>iPhone (Safari):</strong> Deelmenu → Zet op beginscherm.</p>
+    <p><strong>Desktop:</strong> Bladwijzer toevoegen (Ctrl+D).</p>
+    <p style="margin-top:8px">→ Naam: <strong>MeldGeluidsoverlast</strong></p>
+  </div>
+
+  <div class="info-card">
+    <p><strong>Wat doet deze app?</strong> MeldGeluidsoverlast verstuurt automatisch een geluidsmelding bij het Casper-portaal van Eindhoven Airport.</p>
+    <p>Het script vult datum, tijd en oorzaak voor je in en klikt op Verstuur. Je werkt op je <strong>eigen Casper-account</strong>. Geen 8 klikken meer.</p>
+  </div>
+
+  <div class="card">
+    <h3>Eerst installeren?</h3>
+    <p><a href="install.html">→ Open de installatie-instructies</a> als het script nog niet werkt.</p>
+    <p><a href="?reset" class="reset-link">↻ Reset (toon install-knop opnieuw)</a></p>
+  </div>
+
+  <small>Bij elke tik op een knop opent het portaal in Firefox en wordt de melding automatisch verstuurd voor het huidige tijdstip.</small>
+  <small><a href="https://meldgeluidsoverlast.nl/" style="color:#9aa6bd">meldgeluidsoverlast.nl</a> · open source op <a href="https://github.com/mrcncpt/klacht-eindhoven" style="color:#9aa6bd">GitHub</a></small>
+</div>
+
+<script>
+  var doReset = /[?&]reset(=|&|$)/i.test(location.search);
+  if (doReset) {
+    try { localStorage.removeItem('klachtNuInstalled'); } catch (e) {}
+    history.replaceState({}, '', location.pathname);
+    document.getElementById('reset-banner').classList.remove('hidden');
+  }
+
+  var ua = navigator.userAgent;
+  var isFirefox = /Firefox/.test(ua);
+  var isAndroid = /Android/.test(ua);
+  var isFirefoxAndroid = isFirefox && isAndroid;
+
+  // Force Firefox: toon waarschuwing als gebruiker op Android in Chrome zit
+  if (isAndroid && !isFirefox) {
+    var warn = document.getElementById('ffWarn');
+    var ffBtn = document.getElementById('ffOpenBtn');
+    var here = location.host + location.pathname + location.search;
+    ffBtn.href = 'intent://' + here + '#Intent;scheme=https;package=org.mozilla.firefox;S.browser_fallback_url=' +
+      encodeURIComponent('https://play.google.com/store/apps/details?id=org.mozilla.firefox') + ';end';
+    warn.classList.add('show');
+    window.scrollTo(0, 0);
+  }
+
+  // FORCE FIREFOX op Android: vervang knop-href met intent:// URL
+  // op andere platforms blijft de https-URL behouden
+  document.querySelectorAll('.klachtbtn').forEach(function (a) {
+    var url = a.dataset.href;
+    if (isAndroid) {
+      // intent URL dwingt opening in Firefox specifiek
+      var u = new URL(url);
+      var intentUrl = 'intent://' + u.host + u.pathname + u.search + u.hash +
+                      '#Intent;scheme=https;package=org.mozilla.firefox;end';
+      a.href = intentUrl;
+    } else {
+      a.href = url;
+    }
+  });
+
+  var hasUsedBefore = localStorage.getItem('klachtNuInstalled') === 'yes';
+  if (hasUsedBefore && !doReset) {
+    document.getElementById('installed-banner').classList.remove('hidden');
+  }
+
+  var deferredPrompt = null;
+  var installBtn = document.getElementById('installBtn');
+  var ffCard = document.getElementById('ffCard');
+  var manualCard = document.getElementById('manualInstall');
+
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (!hasUsedBefore) installBtn.classList.remove('hidden');
+  });
+
+  setTimeout(function () {
+    if (!deferredPrompt && !hasUsedBefore) {
+      if (isFirefoxAndroid) ffCard.classList.remove('hidden');
+      else manualCard.classList.remove('hidden');
+    }
+  }, 1200);
+
+  installBtn.addEventListener('click', function () {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function (choice) {
+      if (choice.outcome === 'accepted') {
+        installBtn.classList.add('hidden');
+        localStorage.setItem('klachtNuInstalled', 'yes');
+      }
+      deferredPrompt = null;
+    });
+  });
+
+  document.querySelectorAll('a.klachtbtn').forEach(function (a) {
+    a.addEventListener('click', function () {
+      localStorage.setItem('klachtNuInstalled', 'yes');
+    });
+  });
+
+  window.addEventListener('appinstalled', function () {
+    localStorage.setItem('klachtNuInstalled', 'yes');
+    installBtn.classList.add('hidden');
+    ffCard.classList.add('hidden');
+    document.getElementById('installed-banner').classList.remove('hidden');
+  });
+</script>
+</body>
+</html>

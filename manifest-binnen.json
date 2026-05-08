@@ -1,0 +1,23 @@
+{
+  "name": "Meld Binnen — Geluidsoverlast",
+  "short_name": "Meld Binnen",
+  "start_url": "binnen.html?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0e1320",
+  "theme_color": "#22c55e",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg%20xmlns=\"http://www.w3.org/2000/svg\"%20viewBox=\"0%200%20192%20192\"><rect%20width=\"192\"%20height=\"192\"%20rx=\"28\"%20fill=\"%2322c55e\"/><path%20d=\"M138%2038%20L165%2038%20L172%2042%20L182%2042%20L172%2032%20L177%2028%20L185%2036%20L190%2032%20L175%2018%20L160%2028%20L148%2028%20L138%2032%20Z\"%20fill=\"%23fff\"%20opacity=\"0.95\"/><path%20d=\"M75%2070%20Q96%2090%20117%2070\"%20fill=\"none\"%20stroke=\"%23fff\"%20stroke-width=\"3\"%20stroke-linecap=\"round\"%20opacity=\"0.7\"/><path%20d=\"M65%2085%20Q96%20110%20127%2085\"%20fill=\"none\"%20stroke=\"%23fff\"%20stroke-width=\"3\"%20stroke-linecap=\"round\"%20opacity=\"0.55\"/><path%20d=\"M55%20100%20Q96%20130%20137%20100\"%20fill=\"none\"%20stroke=\"%23fff\"%20stroke-width=\"3\"%20stroke-linecap=\"round\"%20opacity=\"0.4\"/><path%20d=\"M40%20174%20L40%20130%20L96%2088%20L152%20130%20L152%20174%20Z\"%20fill=\"%230e1320\"%20opacity=\"0.88\"/><rect%20x=\"84\"%20y=\"142\"%20width=\"24\"%20height=\"32\"%20fill=\"%2322c55e\"/><rect%20x=\"56\"%20y=\"138\"%20width=\"16\"%20height=\"14\"%20fill=\"%2322c55e\"%20opacity=\"0.7\"/><rect%20x=\"120\"%20y=\"138\"%20width=\"16\"%20height=\"14\"%20fill=\"%2322c55e\"%20opacity=\"0.7\"/></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,<svg%20xmlns=\"http://www.w3.org/2000/svg\"%20viewBox=\"0%200%20192%20192\"><rect%20width=\"192\"%20height=\"192\"%20rx=\"28\"%20fill=\"%2322c55e\"/><path%20d=\"M138%2038%20L165%2038%20L172%2042%20L182%2042%20L172%2032%20L177%2028%20L185%2036%20L190%2032%20L175%2018%20L160%2028%20L148%2028%20L138%2032%20Z\"%20fill=\"%23fff\"%20opacity=\"0.95\"/><path%20d=\"M75%2070%20Q96%2090%20117%2070\"%20fill=\"none\"%20stroke=\"%23fff\"%20stroke-width=\"3\"%20stroke-linecap=\"round\"%20opacity=\"0.7\"/><path%20d=\"M65%2085%20Q96%20110%20127%2085\"%20fill=\"none\"%20stroke=\"%23fff\"%20stroke-width=\"3\"%20stroke-linecap=\"round\"%20opacity=\"0.55\"/><path%20d=\"M55%20100%20Q96%20130%20137%20100\"%20fill=\"none\"%20stroke=\"%23fff\"%20stroke-width=\"3\"%20stroke-linecap=\"round\"%20opacity=\"0.4\"/><path%20d=\"M40%20174%20L40%20130%20L96%2088%20L152%20130%20L152%20174%20Z\"%20fill=\"%230e1320\"%20opacity=\"0.88\"/><rect%20x=\"84\"%20y=\"142\"%20width=\"24\"%20height=\"32\"%20fill=\"%2322c55e\"/><rect%20x=\"56\"%20y=\"138\"%20width=\"16\"%20height=\"14\"%20fill=\"%2322c55e\"%20opacity=\"0.7\"/><rect%20x=\"120\"%20y=\"138\"%20width=\"16\"%20height=\"14\"%20fill=\"%2322c55e\"%20opacity=\"0.7\"/></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

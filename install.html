@@ -67,6 +67,20 @@
   .ff-warn h2{margin:0 0 8px;font-size:18px;color:#fff}
   .ff-warn p{margin:6px 0;font-size:14px;color:#fff}
   .ff-warn a.btn-ff{display:inline-block;background:#fff;color:var(--red);padding:12px 18px;border-radius:var(--radius-sm);text-decoration:none;font-weight:bold;font-size:15px;margin-top:10px}
+  .account-card{background:linear-gradient(135deg,rgba(255,184,0,0.12),rgba(255,184,0,0.04));border:1px solid rgba(255,184,0,0.35);border-radius:var(--radius);padding:18px 20px;margin-bottom:24px}
+  .account-card h2{margin:0 0 6px;font-size:17px;color:var(--accent);display:flex;align-items:center;gap:10px}
+  .account-card h2 .num{background:var(--accent);color:var(--bg)}
+  .account-card p{margin:6px 0;font-size:14px;color:var(--text-muted)}
+  .account-card p.lead-line{color:var(--text);font-size:14px;margin:4px 0 10px}
+  .account-card a.step-btn{background:var(--accent);color:var(--bg)}
+  .account-card a.step-btn:hover{background:#e6a600}
+  .account-card .skip-line{font-size:12px;color:var(--text-faint);margin-top:10px;text-align:center}
+  .account-card .skip-line a{color:var(--text-muted);text-decoration:underline}
+  .help-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin-top:24px;text-align:center}
+  .help-card h3{margin:0 0 6px;font-size:14px;color:var(--text)}
+  .help-card p{margin:4px 0;font-size:13px;color:var(--text-muted)}
+  .help-card a{color:var(--green);text-decoration:none;font-weight:600}
+  .help-card a:hover{text-decoration:underline}
 </style>
 <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -75,23 +89,14 @@
   "description": "Installeer de 1-tap geluidsmelder voor Eindhoven Airport in 6 stappen op Android of desktop.",
   "totalTime": "PT5M",
   "step": [
-    {"@type": "HowToStep", "position": 1, "name": "Installeer Firefox", "text": "Op Android werkt de app alleen via Firefox."},
-    {"@type": "HowToStep", "position": 2, "name": "Installeer Tampermonkey", "text": "Voeg de Tampermonkey-add-on toe aan Firefox."},
-    {"@type": "HowToStep", "position": 3, "name": "Installeer het Meld-script", "text": "Open de userscript-link in Firefox."},
-    {"@type": "HowToStep", "position": 4, "name": "Log in op Casper", "text": "Eenmalig inloggen op het portaal van Eindhoven Airport."},
+    {"@type": "HowToStep", "position": 1, "name": "Maak een Casper-account", "text": "Registreer eenmalig bij het Casper-portaal van Eindhoven Airport."},
+    {"@type": "HowToStep", "position": 2, "name": "Installeer Firefox", "text": "Op Android werkt de app alleen via Firefox."},
+    {"@type": "HowToStep", "position": 3, "name": "Installeer Tampermonkey", "text": "Voeg de Tampermonkey-add-on toe aan Firefox."},
+    {"@type": "HowToStep", "position": 4, "name": "Installeer het Meld-script", "text": "Open de userscript-link in Firefox."},
     {"@type": "HowToStep", "position": 5, "name": "Test", "text": "Verstuur een eerste testmelding."},
     {"@type": "HowToStep", "position": 6, "name": "Voeg toe aan startscherm", "text": "Installeer de Meld-apps als shortcut op je homescreen."}
   ]
-}  function shareApp() {
-    var url = "https://meldgeluidsoverlast.nl/";
-    var text = "Last van geluidsoverlast Eindhoven Airport? Deze app dient in 1 tap een melding in.";
-    if (navigator.share) {
-      navigator.share({title: "MeldGeluidsoverlast", text: text, url: url}).catch(function(e){});
-    } else {
-      window.open("https://wa.me/?text=" + encodeURIComponent(text + " " + url), "_blank");
-    }
-  }
-</script>
+}</script>
 </head>
 <body>
 <div class="bg-glow"></div>
@@ -110,6 +115,14 @@
     <p><b>Wat doet deze app?</b></p>
     <p>Vliegt er een toestel laag over je huis? Tik op het Meld-icoon op je startscherm en je melding wordt automatisch ingediend op het Casper-portaal van Eindhoven Airport. Geen 8 klikken meer — gewoon één tik.</p>
     <p>Je hoeft dit eenmalig in te stellen. Daarna heb je 1, 2 of 3 icoontjes op je homescreen: voor geluid binnen, buiten en slaapverstoring. Iedereen meldt met zijn eigen Casper-account.</p>
+  </div>
+
+  <div class="account-card" id="accountCard">
+    <h2><span class="num">0</span>Heb je al een Casper-account?</h2>
+    <p class="lead-line">Dit is <b>vereist</b> — de melder werkt op je eigen account bij Eindhoven Airport. Gratis, eenmalig registreren met e-mail, naam en adres.</p>
+    <a class="step-btn" href="https://ein.flighttracking.casper.aero/portal/?p=register" target="_blank">▶️ Account aanmaken</a>
+    <a class="step-btn step-btn-sec" href="https://ein.flighttracking.casper.aero/portal/" target="_blank">▶️ Inloggen (al account)</a>
+    <p class="skip-line">Casper bewaart alleen je melding-historie. Wij (MeldGeluidsoverlast) slaan zelf <b>niets</b> op.</p>
   </div>
 
   <div class="tabs">
@@ -137,7 +150,7 @@
     <div class="step" id="stepScript">
       <h2><span class="num">3</span>Installeer het Meld-script</h2>
       <p>Open onderstaande link in <b>Firefox</b>. Tampermonkey vraagt of je het script wil installeren — tik <b>Install</b>.</p>
-      <a class="step-btn" href="https://raw.githubusercontent.com/mrcncpt/klacht-eindhoven/main/klacht-eindhoven.user.js">▶️ Meld-script installeren</a>
+      <a class="step-btn" href="https://www.meldgeluidsoverlast.nl/klacht-eindhoven.user.js">▶️ Meld-script installeren</a>
     </div>
 
     <div class="step">
@@ -198,13 +211,84 @@
 
   <!-- IPHONE -->
   <div class="tab-content" id="tab-iphone">
+
     <div class="step">
-      <h2><span class="num">!</span>iPhone wordt nog niet ondersteund</h2>
-      <p>Op iOS kun je geen userscripts in Firefox draaien (Apple staat alleen WebKit toe). Mogelijke alternatieven:</p>
-      <p>• <b>Userscripts-app</b> (Safari-extensie, betaald in App Store) + handmatig script importeren.</p>
-      <p>• Gebruik je iPhone om in te loggen op het portaal en klaag handmatig.</p>
-      <p>Wil je hier hulp bij? Stuur me een berichtje</p>
+      <h2><span class="num">1</span>Installeer "Userscripts" (gratis)</h2>
+      <p>Open de App Store en installeer de gratis app <b>Userscripts</b> van Justin Wasack. Dit is een Safari-extensie waarmee userscripts op je iPhone werken (Tampermonkey kan dat op iOS niet).</p>
+      <a class="step-btn" href="https://apps.apple.com/app/userscripts/id1463298887" target="_blank">▶️ Userscripts in App Store</a>
     </div>
+
+    <div class="step">
+      <h2><span class="num">2</span>Schakel Userscripts in</h2>
+      <p>Open op je iPhone: <b>Instellingen → Apps → Safari → Extensies</b> en zet <b>Userscripts</b> aan.</p>
+      <p class="hint">Geef toestemming voor "Alle websites" zodat het script op het Casper-portaal mag werken.</p>
+    </div>
+
+    <div class="step">
+      <h2><span class="num">3</span>Importeer het Meld-script</h2>
+      <p>Open onderstaande link in <b>Safari</b>. Userscripts vraagt of je het script wil installeren — tik <b>Save</b>.</p>
+      <a class="step-btn" href="https://www.meldgeluidsoverlast.nl/klacht-eindhoven.user.js">▶️ Meld-script installeren</a>
+    </div>
+
+    <div class="step">
+      <h2><span class="num">4</span>Log in op het Casper-portaal</h2>
+      <p>Open het portaal in Safari en log eenmalig in (of maak een account aan via stap 0 hierboven). Safari onthoudt je sessie.</p>
+      <a class="step-btn step-btn-sec" href="https://ein.flighttracking.casper.aero/portal/" target="_blank">▶️ Casper-portaal openen</a>
+    </div>
+
+    <div class="step">
+      <h2><span class="num">5</span>Test het script</h2>
+      <p>Open deze test-link in Safari. Als alles werkt zie je een groene balk en wordt de melding automatisch ingediend.</p>
+      <a class="step-btn step-btn-sec" href="https://ein.flighttracking.casper.aero/portal/?klachtnu=1&sub=2">▶️ Test: Meld Binnen</a>
+    </div>
+
+    <div class="step">
+      <h2><span class="num">6</span>Voeg toe aan beginscherm</h2>
+      <p>Open in Safari één van onderstaande links. Tap dan op het <b>deel-icoon</b> (vierkantje met pijltje omhoog) → <b>Zet op beginscherm</b>. Geef hem een naam (bijv. "Meld Binnen") en tap <b>Voeg toe</b>.</p>
+      <p class="hint">Daarna is elke tap op het icoon = directe automatische melding via Safari + Userscripts.</p>
+
+      <a class="pwa-card" href="https://ein.flighttracking.casper.aero/portal/?klachtnu=1&sub=2" target="_blank">
+        <div class="pwa-row">
+          <div class="pwa-badge badge-binnen">B</div>
+          <div class="pwa-info">
+            <h3>Meld Binnen <span class="recommended">MEEST GEBRUIKT</span></h3>
+            <p>Geluid binnenshuis — toestel boven je huis</p>
+          </div>
+          <div class="pwa-arrow">›</div>
+        </div>
+      </a>
+
+      <a class="pwa-card" href="https://ein.flighttracking.casper.aero/portal/?klachtnu=1&sub=3" target="_blank">
+        <div class="pwa-row">
+          <div class="pwa-badge badge-buiten">T</div>
+          <div class="pwa-info">
+            <h3>Meld Buiten</h3>
+            <p>Geluid buitenshuis — overlast in tuin/op straat</p>
+          </div>
+          <div class="pwa-arrow">›</div>
+        </div>
+      </a>
+
+      <a class="pwa-card" href="https://ein.flighttracking.casper.aero/portal/?klachtnu=1&sub=1" target="_blank">
+        <div class="pwa-row">
+          <div class="pwa-badge badge-slaap">S</div>
+          <div class="pwa-info">
+            <h3>Meld Slaap</h3>
+            <p>Slaapverstoring — toestel haalt je uit je slaap</p>
+          </div>
+          <div class="pwa-arrow">›</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="step" style="border-style:dashed">
+      <h2><span class="num">↳</span>Geen app willen installeren?</h2>
+      <p>Geen Userscripts-app? Je kunt het Casper-portaal als beginscherm-icoon zetten en handmatig melden — geen 1-tap, maar wel altijd toegankelijk:</p>
+      <a class="step-btn step-btn-sec" href="https://ein.flighttracking.casper.aero/portal/" target="_blank">▶️ Open Casper-portaal</a>
+      <p class="hint">In Safari: deel-icoon → Zet op beginscherm. Daarna handmatig per melding 4 stappen invullen (Klacht → Specifiek → Datum/tijd → Oorzaak).</p>
+      <p class="hint" style="margin-top:8px">Waarom geen Apple Shortcut-route? Casper's klacht-flow is verspreid over 4 pagina's met page-reloads tussendoor; een Shortcut draait maar één keer per pagina, dus dat zou betekenen dat je 4× de share-knop moet tappen per melding — slechter dan handmatig.</p>
+    </div>
+
   </div>
 
   <!-- DESKTOP -->
@@ -212,107 +296,4 @@
     <div class="step">
       <h2><span class="num">1</span>Installeer Tampermonkey</h2>
       <p>Werkt in Chrome, Firefox, Edge en Brave.</p>
-      <a class="step-btn" href="https://www.tampermonkey.net/" target="_blank">▶️ Tampermonkey downloaden</a>
-      <p class="hint">In Chrome: ga naar <code>chrome://extensions/</code> → Developer Mode aan → "Allow user scripts" aan.</p>
-    </div>
-
-    <div class="step">
-      <h2><span class="num">2</span>Installeer het Meld-script</h2>
-      <a class="step-btn" href="https://raw.githubusercontent.com/mrcncpt/klacht-eindhoven/main/klacht-eindhoven.user.js">▶️ Meld-script installeren</a>
-    </div>
-
-    <div class="step">
-      <h2><span class="num">3</span>Log in op Casper</h2>
-      <a class="step-btn step-btn-sec" href="https://ein.flighttracking.casper.aero/portal/" target="_blank">▶️ Casper-portaal</a>
-    </div>
-
-    <div class="step">
-      <h2><span class="num">4</span>Maak bookmarks of pin tabs</h2>
-      <p>Bookmark deze links voor 1-klik klagen:</p>
-      <p>🟢 <a href="https://ein.flighttracking.casper.aero/portal/?klachtnu=1&sub=2" style="color:#22c55e">Meld Binnen</a></p>
-      <p>🟠 <a href="https://ein.flighttracking.casper.aero/portal/?klachtnu=1&sub=3" style="color:#f59e0b">Meld Buiten</a></p>
-      <p>🟣 <a href="https://ein.flighttracking.casper.aero/portal/?klachtnu=1&sub=1" style="color:#8b5cf6">Meld Slaap</a></p>
-    </div>
-  </div>
-
-  <div class="step" style="background:#1a2030;text-align:center;padding:24px">
-    <h2><span class="num">📱</span>Deel met buren via QR-code</h2>
-    <p>Last je buren ook van geluidsoverlast? Laat ze deze QR-code scannen — ze komen direct op deze installatie-pagina:</p>
-    <div style="background:#fff;display:inline-block;padding:12px;border-radius:12px;margin:12px 0">
-      <img src="qr-install.svg" alt="QR-code naar https://meldgeluidsoverlast.nl/install.html" style="display:block;width:200px;height:200px">
-    </div>
-    <p style="font-size:13px;color:#9aa3b2">Of stuur de link: <a href="https://meldgeluidsoverlast.nl/" style="color:#22c55e">meldgeluidsoverlast.nl</a></p>
-    <button onclick="shareApp()" style="background:#22c55e;color:#0e1320;border:0;border-radius:8px;padding:12px 20px;font-weight:bold;font-size:14px;cursor:pointer;margin-top:8px">📤 Deel via WhatsApp / Mail</button>
-  </div>
-
-  <p class="footer">
-    <a href="https://meldgeluidsoverlast.nl/" target="_blank">meldgeluidsoverlast.nl</a> · <a href="https://github.com/mrcncpt/klacht-eindhoven" target="_blank">Open source op GitHub</a> · MIT License
-  </p>
-</div>
-
-<script>
-  // Tabs
-  document.querySelectorAll('.tab').forEach(function(t){
-    t.addEventListener('click', function(){
-      document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active')});
-      document.querySelectorAll('.tab-content').forEach(function(x){x.classList.remove('active')});
-      t.classList.add('active');
-      document.getElementById('tab-'+t.dataset.tab).classList.add('active');
-    });
-  });
-
-  // Auto-detect platform
-  (function(){
-    var ua = navigator.userAgent;
-    if (/iPhone|iPad/.test(ua)) {
-      document.querySelector('[data-tab=iphone]').click();
-    } else if (!/Android/.test(ua)) {
-      document.querySelector('[data-tab=desktop]').click();
-    }
-  })();
-
-  // Als de pagina al in Firefox is geopend, markeer Stap 1 (Installeer Firefox) als klaar
-  (function(){
-    if (/Firefox|FxiOS/i.test(navigator.userAgent)) {
-      var s1 = document.getElementById('stepFF');
-      if (s1) s1.classList.add('done');
-    }
-  })();
-
-  // Detecteer of het Klacht-script via Tampermonkey draait. Als ons userscript v1.6+ matcht op deze pagina, zet hij document.body.dataset.tmKlachtScript en/of dispatcht 'tm-klacht-loaded'. Aanwezigheid daarvan = Tampermonkey + script geinstalleerd, dus stap 2 en stap 3 zijn klaar.
-  (function(){
-    var sTM = document.getElementById('stepTM');
-    var sScript = document.getElementById('stepScript');
-    function markDone(){
-      if (sTM) sTM.classList.add('done');
-      if (sScript) sScript.classList.add('done');
-    }
-    if (document.body && document.body.dataset && document.body.dataset.tmKlachtScript) { markDone(); return; }
-    document.addEventListener('tm-klacht-loaded', markDone, { once: true });
-    var tries = 0, max = 30;
-    var iv = setInterval(function(){
-      tries++;
-      if (document.body && document.body.dataset && document.body.dataset.tmKlachtScript) { markDone(); clearInterval(iv); return; }
-      if (tries >= max) clearInterval(iv);
-    }, 50);
-  })();
-
-  // Detect Chrome on Android — show warning + Firefox-intent link + convert ALL external https-links to Firefox-intent
-  (function(){
-    var ua = navigator.userAgent;
-    var isAndroid = /Android/.test(ua);
-    var isFirefox = /Firefox|FxiOS/i.test(ua);
-    if (isAndroid && !isFirefox) {
-      var warn = document.getElementById('ffWarn');
-      var btn = document.getElementById('ffOpenBtn');
-      var here = location.host + location.pathname + location.search;
-      btn.href = 'intent://' + here + '#Intent;scheme=https;package=org.mozilla.firefox;S.browser_fallback_url=' +
-        encodeURIComponent('https://play.google.com/store/apps/details?id=org.mozilla.firefox') + ';end';
-      warn.classList.add('show');
-      window.scrollTo(0, 0);
-      // Force Firefox for all external https links (Casper-portaal, script-install, Play Store, etc.)
-      document.querySelectorAll('a[href^="https://"]').forEach(function(a){
-        try {
-          var u = new URL(a.href);
-          // Skip Play Store fallback URL — that needs to stay https for the fallback to work
-          if (a.id === 'ffOpenBtn') return;
+      <a class="st

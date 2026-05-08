@@ -1,0 +1,23 @@
+{
+  "name": "Meld Slaap — Geluidsoverlast",
+  "short_name": "Meld Slaap",
+  "start_url": "slaap.html?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0e1320",
+  "theme_color": "#8b5cf6",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg%20xmlns=\"http://www.w3.org/2000/svg\"%20viewBox=\"0%200%20192%20192\"><rect%20width=\"192\"%20height=\"192\"%20rx=\"28\"%20fill=\"%238b5cf6\"/><circle%20cx=\"146\"%20cy=\"46\"%20r=\"20\"%20fill=\"%23fff\"%20opacity=\"0.95\"/><circle%20cx=\"154\"%20cy=\"42\"%20r=\"18\"%20fill=\"%238b5cf6\"/><path%20d=\"M48%2070%20L72%2070%20L77%2073%20L85%2073%20L78%2066%20L82%2063%20L90%2069%20L94%2067%20L82%2056%20L70%2063%20L60%2063%20L50%2067%20Z\"%20fill=\"%23fff\"%20opacity=\"0.85\"/><path%20d=\"M40%2090%20Q70%20105%20100%2090\"%20fill=\"none\"%20stroke=\"%23fff\"%20stroke-width=\"3\"%20stroke-linecap=\"round\"%20opacity=\"0.5\"/><rect%20x=\"22\"%20y=\"120\"%20width=\"14\"%20height=\"40\"%20rx=\"3\"%20fill=\"%23fff\"%20opacity=\"0.95\"/><rect%20x=\"38\"%20y=\"128\"%20width=\"32\"%20height=\"12\"%20rx=\"3\"%20fill=\"%23fff\"%20opacity=\"0.85\"/><rect%20x=\"38\"%20y=\"142\"%20width=\"130\"%20height=\"22\"%20fill=\"%23fff\"%20opacity=\"0.95\"/><rect%20x=\"40\"%20y=\"164\"%20width=\"6\"%20height=\"10\"%20fill=\"%23fff\"%20opacity=\"0.95\"/><rect%20x=\"160\"%20y=\"164\"%20width=\"6\"%20height=\"10\"%20fill=\"%23fff\"%20opacity=\"0.95\"/></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,<svg%20xmlns=\"http://www.w3.org/2000/svg\"%20viewBox=\"0%200%20192%20192\"><rect%20width=\"192\"%20height=\"192\"%20rx=\"28\"%20fill=\"%238b5cf6\"/><circle%20cx=\"146\"%20cy=\"46\"%20r=\"20\"%20fill=\"%23fff\"%20opacity=\"0.95\"/><circle%20cx=\"154\"%20cy=\"42\"%20r=\"18\"%20fill=\"%238b5cf6\"/><path%20d=\"M48%2070%20L72%2070%20L77%2073%20L85%2073%20L78%2066%20L82%2063%20L90%2069%20L94%2067%20L82%2056%20L70%2063%20L60%2063%20L50%2067%20Z\"%20fill=\"%23fff\"%20opacity=\"0.85\"/><path%20d=\"M40%2090%20Q70%20105%20100%2090\"%20fill=\"none\"%20stroke=\"%23fff\"%20stroke-width=\"3\"%20stroke-linecap=\"round\"%20opacity=\"0.5\"/><rect%20x=\"22\"%20y=\"120\"%20width=\"14\"%20height=\"40\"%20rx=\"3\"%20fill=\"%23fff\"%20opacity=\"0.95\"/><rect%20x=\"38\"%20y=\"128\"%20width=\"32\"%20height=\"12\"%20rx=\"3\"%20fill=\"%23fff\"%20opacity=\"0.85\"/><rect%20x=\"38\"%20y=\"142\"%20width=\"130\"%20height=\"22\"%20fill=\"%23fff\"%20opacity=\"0.95\"/><rect%20x=\"40\"%20y=\"164\"%20width=\"6\"%20height=\"10\"%20fill=\"%23fff\"%20opacity=\"0.95\"/><rect%20x=\"160\"%20y=\"164\"%20width=\"6\"%20height=\"10\"%20fill=\"%23fff\"%20opacity=\"0.95\"/></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

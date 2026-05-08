@@ -187,10 +187,29 @@
     color: var(--success);
     font-size: 14px;
     font-weight: 600;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
     animation: slideDown 0.4s var(--easing) both;
   }
   .done-banner svg { width: 18px; height: 18px; }
+
+  /* === First-time share prompt === */
+  .first-share {
+    background: linear-gradient(135deg, rgba(251,191,36,0.15), rgba(251,191,36,0.04));
+    border: 1px solid rgba(251,191,36,0.35);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 24px;
+    text-align: center;
+    animation: slideDown 0.4s var(--easing) both;
+  }
+  .first-share p { margin: 0 0 10px; font-size: 13px; color: var(--text); line-height: 1.45; }
+  .first-share button {
+    background: var(--amber); color: #1a1300; border: 0;
+    border-radius: 10px; padding: 10px 18px;
+    font-weight: 700; font-size: 13px; cursor: pointer;
+    font-family: inherit;
+  }
+  .first-share button:active { transform: scale(0.97); }
   @keyframes slideDown {
     from { opacity: 0; transform: translateY(-12px); }
     to { opacity: 1; transform: translateY(0); }
@@ -382,22 +401,4 @@
   <header class="topbar">
     <a class="brand" href="/">
       <span class="brand-mark">
-        <svg viewBox="0 0 24 24"><path d="M12 4 L14 12 L20 14 L14 16 L12 22 L10 16 L4 14 L10 12 Z" fill="#1a1300"/></svg>
-      </span>
-      MeldGeluidsoverlast
-    </a>
-    <div class="stats-pill hidden" id="histStats"></div>
-  </header>
-
-  <main class="hero">
-    <div class="hero-icon">
-      <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M8 22 L24 10 L40 22 L40 40 L8 40 Z" fill="rgba(34,197,94,0.12)"/>
-        <path d="M20 40 L20 28 L28 28 L28 40" stroke-width="2"/>
-        <path d="M14 14 Q18 11 22 14" opacity="0.6"/>
-        <path d="M11 18 Q18 12 25 18" opacity="0.4"/>
-      </svg>
-    </div>
-
-    <h1>Geluid binnen</h1>
-    <
+        <svg viewBox="0 0 24 2

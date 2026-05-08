@@ -14,6 +14,13 @@
 <meta property="og:title" content="Meld Buiten — MeldGeluidsoverlast">
 <meta property="og:description" content="Vliegtuig-geluidsoverlast melden bij Eindhoven Airport in 1 tap.">
 <meta property="og:url" content="https://meldgeluidsoverlast.nl/buiten.html">
+<link rel="canonical" href="https://meldgeluidsoverlast.nl/buiten.html">
+<meta property="og:image" content="https://meldgeluidsoverlast.nl/og-image.svg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://meldgeluidsoverlast.nl/og-image.svg">
+<meta name="twitter:title" content="Meld Buiten — MeldGeluidsoverlast">
+<meta name="twitter:description" content="1-tap geluidsoverlast melden bij Eindhoven Airport.">
 <meta name="twitter:card" content="summary">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiNmNTllMGIiLz48cGF0aCBmaWxsPSJ3aGl0ZSIgZD0iTTMyIDEzbDQgMTggMTQgNi0xNCA0LTQgMTItNC0xMi0xNC00IDE0LTZ6Ii8+PC9zdmc+">
 <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiNmNTllMGIiLz48cGF0aCBmaWxsPSJ3aGl0ZSIgZD0iTTMyIDEzbDQgMTggMTQgNi0xNCA0LTQgMTItNC0xMi0xNC00IDE0LTZ6Ii8+PC9zdmc+">
@@ -52,7 +59,24 @@
   small.ftnote{display:block;text-align:center;color:#9aa6bd;font-size:12px;margin-top:14px}
   .ftnote a{color:#9aa6bd;text-decoration:underline}
   .nb{background:rgba(0,0,0,.18);border-radius:10px;padding:8px 10px;margin-top:10px;font-size:12px;line-height:1.4}
+  .btn-share{background:#1f2937;color:#e8eef9;border:1px solid #374151;margin-top:6px}
+  .btn-share:hover{background:#243150}
 </style>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Meld Buiten — MeldGeluidsoverlast",
+  "description": "Verstuur in 1 tap een geluidsmelding (geluid buiten) naar Eindhoven Airport via het Casper-portaal.",
+  "url": "https://meldgeluidsoverlast.nl/buiten.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Web, Android (PWA)",
+  "isAccessibleForFree": true,
+  "publisher": {
+    "@type": "Organization",
+    "name": "MeldGeluidsoverlast",
+    "url": "https://meldgeluidsoverlast.nl/"
+  }
+}</script>
 </head>
 <body>
 <div class="wrap">
@@ -71,6 +95,9 @@
   </div>
   <a class="btn btn-go" id="goBtn" href="https://ein.flighttracking.casper.aero/portal/?klachtnu=1&sub=3"><span class="em">➜</span><span class="ttl">Melding versturen<small>Geluid buiten</small></span></a>
   <div class="stats hidden" id="histStats"></div>
+  <button class="btn btn-share" id="shareBtn" onclick="doShare()">
+    <span class="em">📤</span><span class="ttl">Deel met buren<small>WhatsApp · Mail · Copy link</small></span>
+  </button>
   <div class="info"><p><strong>MeldGeluidsoverlast — Geluid buiten</strong> dient automatisch een melding in op het Casper-portaal van Eindhoven Airport. Het script vult datum, tijd en oorzaak voor je in en klikt op Verstuur.</p><p style="margin-top:8px"><a href="install.html">→ Installatie-instructies</a></p></div>
   <small class="ftnote"><a href="https://meldgeluidsoverlast.nl/">meldgeluidsoverlast.nl</a> · <a href="?reset">↻ Reset</a> · <a href="#" id="clearHist">Historie wissen</a></small>
 </div>
@@ -141,6 +168,26 @@
       ffCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   });
+  
+  function doShare() {
+    var url = "https://meldgeluidsoverlast.nl/install.html";
+    var text = "Last van geluidsoverlast van Eindhoven Airport? Met deze app dien je in 1 tap een melding in.";
+    if (navigator.share) {
+      navigator.share({
+        title: "MeldGeluidsoverlast",
+        text: text,
+        url: url
+      }).catch(function(e){});
+    } else {
+      // Fallback: copy URL + open share menu via mailto + WhatsApp
+      var fallback = confirm("Deel link gekopieerd naar klembord. Open WhatsApp om hem direct te delen?");
+      if (navigator.clipboard) navigator.clipboard.writeText(url + " — " + text).catch(function(e){});
+      if (fallback) {
+        window.open("https://wa.me/?text=" + encodeURIComponent(text + " " + url), "_blank");
+      }
+    }
+  }
+
   document.getElementById('goBtn').addEventListener('click', function () { localStorage.setItem(FLAG, 'yes'); logKlacht(TYPE); });
   window.addEventListener('appinstalled', function () { localStorage.setItem(FLAG, 'yes'); installBtn.classList.add('hidden-after-install'); ffCard.classList.add('hidden'); });
 </script>

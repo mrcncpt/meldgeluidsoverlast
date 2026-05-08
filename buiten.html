@@ -94,7 +94,7 @@
 </head>
 <body>
 <div class="wrap">
-  <div class="ff-warn hidden" id="ffWarn">
+  <div class="ff-warn" id="ffWarn">
     <h3>⚠️ Open in Firefox</h3>
     <p>Op Android werkt de auto-meld functie alleen in Firefox met Tampermonkey. Chrome ondersteunt geen userscripts.</p>
     <div class="ff-warn-actions">
@@ -160,17 +160,22 @@
   var isFirefox = /Firefox/.test(navigator.userAgent);
   if (isStandalone && !doReset && !justDone) { location.replace(TARGET); }
 
-  // Show Firefox warning on Android Chrome (Chrome op Android ondersteunt geen userscripts)
-  if (isAndroid && !isFirefox) {
+  // Firefox warning: standaard zichtbaar, alleen verbergen op desktop/Firefox/standalone
+  (function () {
     var ffWarn = document.getElementById('ffWarn');
     var ffOpenBtn = document.getElementById('ffOpenBtn');
-    var here = location.host + location.pathname + location.search;
-    var fallback = encodeURIComponent('https://play.google.com/store/apps/details?id=org.mozilla.firefox');
+    if (!ffWarn) return;
+    if (isStandalone || isFirefox || !isAndroid) {
+      ffWarn.style.display = 'none';
+      return;
+    }
+    // On Android non-Firefox: build intent URL for "Open in Firefox" button
     if (ffOpenBtn) {
+      var here = location.host + location.pathname + location.search;
+      var fallback = encodeURIComponent('https://play.google.com/store/apps/details?id=org.mozilla.firefox');
       ffOpenBtn.href = 'intent://' + here + '#Intent;scheme=https;package=org.mozilla.firefox;S.browser_fallback_url=' + fallback + ';end';
     }
-    if (ffWarn) ffWarn.classList.remove('hidden');
-  }
+  })();
   function getHistory() { try { return JSON.parse(localStorage.getItem('klacht-history') || '[]'); } catch (e) { return []; } }
   function logKlacht(type) {
     var h = getHistory();

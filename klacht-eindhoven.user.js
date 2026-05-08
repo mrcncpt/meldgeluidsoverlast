@@ -10,8 +10,8 @@
 // @run-at       document-end
 // @grant        none
 // @license      MIT
-// @updateURL    https://raw.githubusercontent.com/mrcncpt/klacht-eindhoven/main/klacht-eindhoven.user.js
-// @downloadURL  https://raw.githubusercontent.com/mrcncpt/klacht-eindhoven/main/klacht-eindhoven.user.js
+// @updateURL    https://www.meldgeluidsoverlast.nl/klacht-eindhoven.user.js
+// @downloadURL  https://www.meldgeluidsoverlast.nl/klacht-eindhoven.user.js
 // ==/UserScript==
 
 (function () {
@@ -24,7 +24,7 @@
             try {
                 document.body.dataset.tmMgoScript = '1.8.0';
                 document.body.dataset.tmKlachtScript = '1.8.0';
-                document.dispatchEvent(new CustomEvent('tm-mgo-loaded', { detail: { version: '1.8.0' } });
+                document.dispatchEvent(new CustomEvent('tm-mgo-loaded', { detail: { version: '1.8.0' } }));
                 document.dispatchEvent(new CustomEvent('tm-klacht-loaded', { detail: { version: '1.8.0' } }));
             } catch (e) {}
         };
@@ -242,11 +242,11 @@
                                     var subToType = { '1': 'slaap', '2': 'binnen', '3': 'buiten' };
                                     var t = subToType[SETTINGS.subcauseValue];
                                     if (t) {
-                                        // Prefer custom domain if user opened from there, else fall back to github.io
+                                        // Default naar live site; alleen terug naar github.io als gebruiker daar vandaan kwam (dev)
                                         var ref = document.referrer || '';
-                                        var base = (/meldgeluidsoverlast\.nl/.test(ref))
-                                            ? 'https://meldgeluidsoverlast.nl/'
-                                            : 'https://mrcncpt.github.io/klacht-eindhoven/';
+                                        var base = /mrcncpt\.github\.io/.test(ref)
+                                            ? 'https://mrcncpt.github.io/klacht-eindhoven/'
+                                            : 'https://www.meldgeluidsoverlast.nl/';
                                         location.replace(base + t + '.html?done=1');
                                     } else {
                                         try { window.close(); } catch (e) {}
@@ -268,3 +268,4 @@
         showBanner(0, 'Log eerst in en tap opnieuw op icoon', '#ffb800');
     }
 })();
+                                             

@@ -65,6 +65,16 @@
   .nb{background:rgba(0,0,0,.18);border-radius:10px;padding:8px 10px;margin-top:10px;font-size:12px;line-height:1.4}
   .btn-share{background:#1f2937;color:#e8eef9;border:1px solid #374151;margin-top:6px}
   .btn-share:hover{background:#243150}
+  .ff-warn{background:linear-gradient(135deg,rgba(220,38,38,.18),rgba(220,38,38,.05));border:1px solid rgba(220,38,38,.4);border-radius:14px;padding:14px 16px;margin-bottom:16px;color:#e8eef9}
+  .ff-warn h3{margin:0 0 6px;color:#fca5a5;font-size:14px;font-weight:800;letter-spacing:-.01em}
+  .ff-warn p{margin:0 0 12px;font-size:13px;color:#cfd8ec;line-height:1.5}
+  .ff-warn-actions{display:flex;flex-direction:column;gap:8px}
+  .ff-warn-btn{display:flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;padding:11px 16px;font-weight:800;font-size:14px;text-decoration:none;cursor:pointer;border:0;font-family:inherit;transition:all .2s}
+  .ff-warn-btn:active{transform:scale(.98)}
+  .ff-warn-primary{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;box-shadow:0 4px 14px rgba(220,38,38,.35)}
+  .ff-warn-primary:hover{filter:brightness(1.08)}
+  .ff-warn-secondary{background:rgba(255,255,255,.04);color:#e8eef9;border:1px solid #374151}
+  .ff-warn-secondary:hover{background:rgba(255,255,255,.08)}
 </style>
 <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -84,6 +94,15 @@
 </head>
 <body>
 <div class="wrap">
+  <div class="ff-warn hidden" id="ffWarn">
+    <h3>⚠️ Open in Firefox</h3>
+    <p>Op Android werkt de auto-meld functie alleen in Firefox met Tampermonkey. Chrome ondersteunt geen userscripts.</p>
+    <div class="ff-warn-actions">
+      <a class="ff-warn-btn ff-warn-primary" id="ffOpenBtn" href="#">▶️ Open in Firefox</a>
+      <a class="ff-warn-btn ff-warn-secondary" href="https://play.google.com/store/apps/details?id=org.mozilla.firefox" target="_blank">📥 Installeer Firefox</a>
+    </div>
+  </div>
+
   <div class="badge">T</div>
   <h1>Geluid buiten</h1>
   <p class="lead">Vliegtuig hoorbaar in tuin / op straat — verstuur direct een melding</p>
@@ -140,6 +159,18 @@
   var isAndroid = /Android/.test(navigator.userAgent);
   var isFirefox = /Firefox/.test(navigator.userAgent);
   if (isStandalone && !doReset && !justDone) { location.replace(TARGET); }
+
+  // Show Firefox warning on Android Chrome (Chrome op Android ondersteunt geen userscripts)
+  if (isAndroid && !isFirefox) {
+    var ffWarn = document.getElementById('ffWarn');
+    var ffOpenBtn = document.getElementById('ffOpenBtn');
+    var here = location.host + location.pathname + location.search;
+    var fallback = encodeURIComponent('https://play.google.com/store/apps/details?id=org.mozilla.firefox');
+    if (ffOpenBtn) {
+      ffOpenBtn.href = 'intent://' + here + '#Intent;scheme=https;package=org.mozilla.firefox;S.browser_fallback_url=' + fallback + ';end';
+    }
+    if (ffWarn) ffWarn.classList.remove('hidden');
+  }
   function getHistory() { try { return JSON.parse(localStorage.getItem('klacht-history') || '[]'); } catch (e) { return []; } }
   function logKlacht(type) {
     var h = getHistory();

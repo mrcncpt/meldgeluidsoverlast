@@ -45,6 +45,10 @@
   .stats strong{color:#8b5cf6;font-weight:800}
   .done-banner{background:rgba(34,197,94,.15);border:2px solid #22c55e;border-radius:14px;padding:14px 16px;color:#22c55e;font-size:15px;font-weight:800;text-align:center;margin:12px 0;animation:flashGreen 0.6s ease-in-out 3}
   @keyframes flashGreen{0%,100%{box-shadow:0 0 0 rgba(139,92,246,.4)}50%{box-shadow:0 0 0 14px rgba(34,197,94,.12)}}
+  .first-share{background:linear-gradient(135deg,rgba(251,191,36,.15),rgba(251,191,36,.04));border:1px solid rgba(251,191,36,.4);border-radius:14px;padding:14px 16px;margin:12px 0;text-align:center;color:#e8eef9;font-size:13px;line-height:1.5}
+  .first-share p{margin:0 0 10px}
+  .first-share button{background:#fbbf24;color:#1a1300;border:0;border-radius:10px;padding:10px 18px;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit}
+  .first-share button:active{transform:scale(0.97)}
   .info{background:#161d2f;border:1px solid #243150;border-radius:14px;padding:14px;margin-top:18px;font-size:13px;color:#cfd8ec;line-height:1.55}
   .info a{color:#ffb800}
   .ff-card{background:linear-gradient(135deg,#ff9f00,#ff6b00);color:#fff;border-radius:16px;padding:18px;margin:14px 0}
@@ -83,7 +87,11 @@
   <div class="badge">S</div>
   <h1>Slaapverstoring</h1>
   <p class="lead">Vliegtuig haalt je uit je slaap — verstuur direct een melding</p>
-  <div class="done-banner hidden" id="doneBanner">✅ Melding verstuurd — tap nogmaals voor de volgende vlucht</div>
+  <div class="done-banner hidden" id="doneBanner">✅ <span id="doneText">Melding verstuurd — tap nogmaals voor de volgende vlucht</span></div>
+  <div class="first-share hidden" id="firstShare">
+    <p>🎉 <strong>Eerste melding verstuurd!</strong> Hoe meer buren meedoen, hoe meer impact.</p>
+    <button type="button" onclick="doShare()">📣 Deel met buren</button>
+  </div>
   <button class="btn btn-pwa" id="installBtn"><span class="em">📥</span><span class="ttl">Toevoegen aan startscherm<small>Daarna 1 tap = melding verstuurd</small></span></button>
   <div class="ff-card hidden" id="ffCard">
     <h3>📲 Installeer als app op je startscherm</h3>
@@ -113,6 +121,21 @@
     var db = document.getElementById('doneBanner');
     if (db) db.classList.remove('hidden');
   }
+  function applyDoneCounter() {
+    if (!justDone) return;
+    var h;
+    try { h = JSON.parse(localStorage.getItem('klacht-history') || '[]'); } catch (e) { h = []; }
+    var total = h.length;
+    var doneText = document.getElementById('doneText');
+    if (total === 1 && doneText) {
+      doneText.textContent = 'Eerste melding verstuurd! Tap nogmaals voor de volgende vlucht';
+      var fs = document.getElementById('firstShare');
+      if (fs) fs.classList.remove('hidden');
+    } else if (total > 0 && doneText) {
+      doneText.textContent = 'Melding #' + total + ' verstuurd — tap voor de volgende vlucht';
+    }
+  }
+  applyDoneCounter();
   var isStandalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
   var isAndroid = /Android/.test(navigator.userAgent);
   var isFirefox = /Firefox/.test(navigator.userAgent);
@@ -157,39 +180,4 @@
     if (deferredPrompt) {
       deferredPrompt.prompt();
       deferredPrompt.userChoice.then(function (r) {
-        if (r && r.outcome === 'accepted') { installBtn.classList.add('hidden-after-install'); localStorage.setItem(FLAG, 'yes'); }
-      });
-      deferredPrompt = null;
-    } else {
-      ffCard.classList.remove('hidden');
-      ffCard.classList.remove('flash');
-      void ffCard.offsetWidth;
-      ffCard.classList.add('flash');
-      ffCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  });
-  
-  function doShare() {
-    var url = "https://meldgeluidsoverlast.nl/install.html";
-    var text = "Last van geluidsoverlast van Eindhoven Airport? Met deze app dien je in 1 tap een melding in.";
-    if (navigator.share) {
-      navigator.share({
-        title: "MeldGeluidsoverlast",
-        text: text,
-        url: url
-      }).catch(function(e){});
-    } else {
-      // Fallback: copy URL + open share menu via mailto + WhatsApp
-      var fallback = confirm("Deel link gekopieerd naar klembord. Open WhatsApp om hem direct te delen?");
-      if (navigator.clipboard) navigator.clipboard.writeText(url + " — " + text).catch(function(e){});
-      if (fallback) {
-        window.open("https://wa.me/?text=" + encodeURIComponent(text + " " + url), "_blank");
-      }
-    }
-  }
-
-  document.getElementById('goBtn').addEventListener('click', function () { localStorage.setItem(FLAG, 'yes'); logKlacht(TYPE); });
-  window.addEventListener('appinstalled', function () { localStorage.setItem(FLAG, 'yes'); installBtn.classList.add('hidden-after-install'); ffCard.classList.add('hidden'); });
-</script>
-</body>
-</html>
+        if (r && r.outcome === 'accepted') { installBtn.classList.add('hidden-after-install'); localStorage.setItem(FLAG, 'ye

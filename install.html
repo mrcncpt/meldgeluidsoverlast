@@ -9,6 +9,13 @@
 <meta property="og:title" content="MeldGeluidsoverlast — Installatie">
 <meta property="og:description" content="Installeer de 1-tap geluidsmelder voor Eindhoven Airport in 6 stappen.">
 <meta property="og:url" content="https://meldgeluidsoverlast.nl/install.html">
+<link rel="canonical" href="https://meldgeluidsoverlast.nl/install.html">
+<meta property="og:image" content="https://meldgeluidsoverlast.nl/og-image.svg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://meldgeluidsoverlast.nl/og-image.svg">
+<meta name="twitter:title" content="MeldGeluidsoverlast — Installatie">
+<meta name="twitter:description" content="Installeer de 1-tap geluidsmelder voor Eindhoven Airport.">
 <meta name="twitter:card" content="summary">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiNmZmI4MDAiLz48cGF0aCBmaWxsPSIjMWExMzAwIiBkPSJNMzIgMTNsNCAxOCAxNCA2LTE0IDQtNCAxMi00LTEyLTE0LTQgMTQtNnoiLz48L3N2Zz4=">
 <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiNmZmI4MDAiLz48cGF0aCBmaWxsPSIjMWExMzAwIiBkPSJNMzIgMTNsNCAxOCAxNCA2LTE0IDQtNCAxMi00LTEyLTE0LTQgMTQtNnoiLz48L3N2Zz4=">
@@ -63,6 +70,30 @@
   .step.done p,.step.done a.btn{text-decoration:line-through;pointer-events:none}
   .step.done h2::after{content:"✓ klaar";display:inline-block;background:#22c55e;color:#0e1320;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:bold;margin-left:8px;text-decoration:none;letter-spacing:0.3px}
 </style>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Installeer MeldGeluidsoverlast",
+  "description": "Installeer de 1-tap geluidsmelder voor Eindhoven Airport in 6 stappen op Android of desktop.",
+  "totalTime": "PT5M",
+  "step": [
+    {"@type": "HowToStep", "position": 1, "name": "Installeer Firefox", "text": "Op Android werkt de app alleen via Firefox."},
+    {"@type": "HowToStep", "position": 2, "name": "Installeer Tampermonkey", "text": "Voeg de Tampermonkey-add-on toe aan Firefox."},
+    {"@type": "HowToStep", "position": 3, "name": "Installeer het Meld-script", "text": "Open de userscript-link in Firefox."},
+    {"@type": "HowToStep", "position": 4, "name": "Log in op Casper", "text": "Eenmalig inloggen op het portaal van Eindhoven Airport."},
+    {"@type": "HowToStep", "position": 5, "name": "Test", "text": "Verstuur een eerste testmelding."},
+    {"@type": "HowToStep", "position": 6, "name": "Voeg toe aan startscherm", "text": "Installeer de Meld-apps als shortcut op je homescreen."}
+  ]
+}  function shareApp() {
+    var url = "https://meldgeluidsoverlast.nl/";
+    var text = "Last van geluidsoverlast Eindhoven Airport? Deze app dient in 1 tap een melding in.";
+    if (navigator.share) {
+      navigator.share({title: "MeldGeluidsoverlast", text: text, url: url}).catch(function(e){});
+    } else {
+      window.open("https://wa.me/?text=" + encodeURIComponent(text + " " + url), "_blank");
+    }
+  }
+</script>
 </head>
 <body>
 <div class="wrap">
@@ -203,6 +234,16 @@
       <p>🟠 <a href="https://ein.flighttracking.casper.aero/portal/?klachtnu=1&sub=3" style="color:#f59e0b">Meld Buiten</a></p>
       <p>🟣 <a href="https://ein.flighttracking.casper.aero/portal/?klachtnu=1&sub=1" style="color:#8b5cf6">Meld Slaap</a></p>
     </div>
+  </div>
+
+  <div class="step" style="background:#1a2030;text-align:center;padding:24px">
+    <h2><span class="num">📱</span>Deel met buren via QR-code</h2>
+    <p>Last je buren ook van geluidsoverlast? Laat ze deze QR-code scannen — ze komen direct op deze installatie-pagina:</p>
+    <div style="background:#fff;display:inline-block;padding:12px;border-radius:12px;margin:12px 0">
+      <img src="qr-install.svg" alt="QR-code naar https://meldgeluidsoverlast.nl/install.html" style="display:block;width:200px;height:200px">
+    </div>
+    <p style="font-size:13px;color:#9aa3b2">Of stuur de link: <a href="https://meldgeluidsoverlast.nl/" style="color:#22c55e">meldgeluidsoverlast.nl</a></p>
+    <button onclick="shareApp()" style="background:#22c55e;color:#0e1320;border:0;border-radius:8px;padding:12px 20px;font-weight:bold;font-size:14px;cursor:pointer;margin-top:8px">📤 Deel via WhatsApp / Mail</button>
   </div>
 
   <p class="footer">

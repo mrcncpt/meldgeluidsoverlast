@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Meld Binnen — MeldGeluidsoverlast</title>
 <link rel="manifest" href="manifest-binnen.json">
-<meta name="theme-color" content="#0a0e1a">
+<meta name="theme-color" content="#22c55e">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Meld Binnen">
 <meta name="description" content="MeldGeluidsoverlast — verstuur in 1 tap een geluidsmelding bij Eindhoven Airport.">
@@ -21,8 +21,61 @@
 <meta name="twitter:image" content="https://meldgeluidsoverlast.nl/og-image.svg">
 <meta name="twitter:title" content="Meld Binnen — MeldGeluidsoverlast">
 <meta name="twitter:description" content="1-tap geluidsoverlast melden bij Eindhoven Airport.">
+<meta name="twitter:card" content="summary">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMyMmM1NWUiLz48cGF0aCBmaWxsPSJ3aGl0ZSIgZD0iTTMyIDEzbDQgMTggMTQgNi0xNCA0LTQgMTItNC0xMi0xNC00IDE0LTZ6Ii8+PC9zdmc+">
 <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMyMmM1NWUiLz48cGF0aCBmaWxsPSJ3aGl0ZSIgZD0iTTMyIDEzbDQgMTggMTQgNi0xNCA0LTQgMTItNC0xMi0xNC00IDE0LTZ6Ii8+PC9zdmc+">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#0e1320;color:#e8eef9;font:16px/1.5 -apple-system,BlinkMacSystemFont,sans-serif;min-height:100vh}
+  .wrap{max-width:480px;margin:0 auto;padding:24px 20px;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+  .badge{width:84px;height:84px;border-radius:18px;background:#f59e0b;display:flex;align-items:center;justify-content:center;font-size:54px;color:#fff;font-weight:800;margin:0 auto 14px;box-shadow:0 6px 20px rgba(0,0,0,.4)}
+  h1{margin:0 0 6px;color:#ffb800;font-size:26px;text-align:center;font-weight:800}
+  .lead{text-align:center;color:#9aa6bd;margin:0 0 20px;font-size:14px}
+  .btn{display:flex;align-items:center;gap:14px;width:100%;border:0;border-radius:14px;padding:18px;font-size:17px;font-weight:800;cursor:pointer;text-align:left;text-decoration:none;margin-bottom:12px;line-height:1.2}
+  .btn:active{transform:translateY(1px)}
+  .btn .em{font-size:30px;flex:0 0 auto}
+  .btn .ttl{flex:1}
+  .btn .ttl small{display:block;font-size:12px;font-weight:600;opacity:.95;margin-top:2px}
+  .btn-go{background:#22c55e;color:#fff;box-shadow:0 4px 16px rgba(34,197,94,.4);animation:glow 1.8s ease-in-out infinite}
+  @keyframes glow{0%,100%{transform:scale(1)}50%{transform:scale(1.015)}}
+  .btn-pwa{background:linear-gradient(135deg,#2563eb,#3b82f6);color:#fff;box-shadow:0 4px 16px rgba(59,130,246,.4)}
+  .btn-pwa.hidden-after-install{display:none}
+  .hidden{display:none!important}
+  .stats{background:#161d2f;border:1px solid #243150;border-radius:10px;padding:10px 12px;color:#cfd8ec;font-size:13px;text-align:center;margin:10px 0}
+  .stats strong{color:#22c55e;font-weight:800}
+  .done-banner{background:rgba(34,197,94,.15);border:2px solid #22c55e;border-radius:14px;padding:14px 16px;color:#22c55e;font-size:15px;font-weight:800;text-align:center;margin:12px 0;animation:flashGreen 0.6s ease-in-out 3}
+  @keyframes flashGreen{0%,100%{box-shadow:0 0 0 rgba(34,197,94,.4)}50%{box-shadow:0 0 0 14px rgba(34,197,94,.12)}}
+  .first-share{background:linear-gradient(135deg,rgba(251,191,36,.15),rgba(251,191,36,.04));border:1px solid rgba(251,191,36,.4);border-radius:14px;padding:14px 16px;margin:12px 0;text-align:center;color:#e8eef9;font-size:13px;line-height:1.5}
+  .first-share p{margin:0 0 10px}
+  .first-share button{background:#fbbf24;color:#1a1300;border:0;border-radius:10px;padding:10px 18px;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit}
+  .first-share button:active{transform:scale(0.97)}
+  .info{background:#161d2f;border:1px solid #243150;border-radius:14px;padding:14px;margin-top:18px;font-size:13px;color:#cfd8ec;line-height:1.55}
+  .info a{color:#ffb800}
+  .ff-card{background:linear-gradient(135deg,#ff9f00,#ff6b00);color:#fff;border-radius:16px;padding:18px;margin:14px 0}
+  .ff-card.flash{animation:flash 0.6s ease-in-out 3}
+  @keyframes flash{0%,100%{box-shadow:0 0 0 rgba(255,159,0,0.4)}50%{box-shadow:0 0 0 12px rgba(255,159,0,0.1)}}
+  .ff-card h3{margin:0 0 10px;font-size:16px;text-align:center}
+  .ff-step{display:flex;align-items:center;gap:10px;margin:6px 0;font-size:14px}
+  .ff-num{flex:0 0 24px;height:24px;border-radius:50%;background:rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+  .ff-key{display:inline-block;background:rgba(0,0,0,.3);padding:2px 8px;border-radius:6px;font-weight:800;font-family:ui-monospace,Menlo,monospace}
+  .arrow-down{font-size:24px;text-align:center;animation:bounce 1.2s infinite;margin:8px 0 0}
+  @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+  small.ftnote{display:block;text-align:center;color:#9aa6bd;font-size:12px;margin-top:14px}
+  .ftnote a{color:#9aa6bd;text-decoration:underline}
+  .nb{background:rgba(0,0,0,.18);border-radius:10px;padding:8px 10px;margin-top:10px;font-size:12px;line-height:1.4}
+  .btn-share{background:#1f2937;color:#e8eef9;border:1px solid #374151;margin-top:6px}
+  .btn-share:hover{background:#243150}
+  .ff-warn{background:linear-gradient(135deg,rgba(220,38,38,.18),rgba(220,38,38,.05));border:1px solid rgba(220,38,38,.4);border-radius:14px;padding:14px 16px;margin-bottom:16px;color:#e8eef9}
+  .ff-warn h3{margin:0 0 6px;color:#fca5a5;font-size:14px;font-weight:800;letter-spacing:-.01em}
+  .ff-warn p{margin:0 0 12px;font-size:13px;color:#cfd8ec;line-height:1.5}
+  .ff-warn-actions{display:flex;flex-direction:column;gap:8px}
+  .ff-warn-btn{display:flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;padding:11px 16px;font-weight:800;font-size:14px;text-decoration:none;cursor:pointer;border:0;font-family:inherit;transition:all .2s}
+  .ff-warn-btn:active{transform:scale(.98)}
+  .ff-warn-primary{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;box-shadow:0 4px 14px rgba(220,38,38,.35)}
+  .ff-warn-primary:hover{filter:brightness(1.08)}
+  .ff-warn-secondary{background:rgba(255,255,255,.04);color:#e8eef9;border:1px solid #374151}
+  .ff-warn-secondary:hover{background:rgba(255,255,255,.08)}
+</style>
 <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "WebApplication",
@@ -38,367 +91,124 @@
     "url": "https://meldgeluidsoverlast.nl/"
   }
 }</script>
-<style>
-  /* === Design tokens === */
-  :root {
-    --bg-base: #0a0e1a;
-    --surface: rgba(22, 29, 47, 0.65);
-    --surface-elevated: rgba(28, 36, 60, 0.85);
-    --border: rgba(255, 255, 255, 0.06);
-    --border-strong: rgba(255, 255, 255, 0.12);
-    --text: #f1f5fc;
-    --text-muted: #8b96b0;
-    --text-faint: #5d6680;
-    --accent: #22c55e;
-    --accent-soft: rgba(34, 197, 94, 0.15);
-    --accent-glow: rgba(34, 197, 94, 0.45);
-    --amber: #fbbf24;
-    --success: #22c55e;
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
-    --shadow-md: 0 8px 32px rgba(0,0,0,0.4);
-    --shadow-glow: 0 0 0 1px rgba(255,255,255,0.06), 0 12px 40px var(--accent-glow);
-    --easing: cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  *, *::before, *::after { box-sizing: border-box; }
-  html, body {
-    margin: 0; padding: 0;
-    background: var(--bg-base);
-    color: var(--text);
-    font: 16px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, "Segoe UI", Roboto, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-  body {
-    background:
-      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(34, 197, 94, 0.18), transparent 60%),
-      radial-gradient(ellipse 60% 40% at 90% 30%, rgba(34, 197, 94, 0.08), transparent 70%),
-      var(--bg-base);
-  }
-
-  .wrap {
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 24px 20px 40px;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* === Top bar === */
-  .topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 32px;
-    padding: 4px;
-  }
-  .brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--text-muted);
-    font-size: 13px;
-    font-weight: 600;
-    text-decoration: none;
-    letter-spacing: -0.01em;
-  }
-  .brand-mark {
-    width: 24px; height: 24px;
-    border-radius: 6px;
-    background: linear-gradient(135deg, #fbbf24, #f59e0b);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .brand-mark svg { width: 14px; height: 14px; }
-  .stats-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--surface);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 7px 14px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-muted);
-  }
-  .stats-pill strong { color: var(--accent); font-weight: 700; }
-  .stats-pill .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text-faint); }
-  .stats-pill.hidden { display: none; }
-
-  /* === Hero === */
-  .hero {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    padding: 12px 0 32px;
-  }
-  .hero-icon {
-    width: 88px; height: 88px;
-    margin: 0 auto 24px;
-    border-radius: 24px;
-    background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(34, 197, 94, 0.05));
-    border: 1px solid rgba(34, 197, 94, 0.25);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 60px rgba(34, 197, 94, 0.25);
-    animation: pulse 3s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); box-shadow: 0 0 60px rgba(34, 197, 94, 0.2); }
-    50% { transform: scale(1.02); box-shadow: 0 0 80px rgba(34, 197, 94, 0.35); }
-  }
-  .hero-icon svg { width: 44px; height: 44px; color: var(--accent); }
-  h1 {
-    font-size: clamp(32px, 8vw, 40px);
-    font-weight: 700;
-    letter-spacing: -0.025em;
-    line-height: 1.05;
-    margin: 0 0 12px;
-    color: var(--text);
-  }
-  .lead {
-    font-size: 16px;
-    color: var(--text-muted);
-    margin: 0 auto 36px;
-    line-height: 1.5;
-    max-width: 360px;
-  }
-
-  /* === Done banner === */
-  .done-banner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    background: rgba(34, 197, 94, 0.12);
-    border: 1px solid rgba(34, 197, 94, 0.3);
-    border-radius: 14px;
-    padding: 14px 18px;
-    color: var(--success);
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 16px;
-    animation: slideDown 0.4s var(--easing) both;
-  }
-  .done-banner svg { width: 18px; height: 18px; }
-
-  /* === First-time share prompt === */
-  .first-share {
-    background: linear-gradient(135deg, rgba(251,191,36,0.15), rgba(251,191,36,0.04));
-    border: 1px solid rgba(251,191,36,0.35);
-    border-radius: 14px;
-    padding: 14px 16px;
-    margin-bottom: 24px;
-    text-align: center;
-    animation: slideDown 0.4s var(--easing) both;
-  }
-  .first-share p { margin: 0 0 10px; font-size: 13px; color: var(--text); line-height: 1.45; }
-  .first-share button {
-    background: var(--amber); color: #1a1300; border: 0;
-    border-radius: 10px; padding: 10px 18px;
-    font-weight: 700; font-size: 13px; cursor: pointer;
-    font-family: inherit;
-  }
-  .first-share button:active { transform: scale(0.97); }
-  @keyframes slideDown {
-    from { opacity: 0; transform: translateY(-12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .hidden { display: none !important; }
-
-  /* === Primary CTA === */
-  .cta-primary {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    width: 100%;
-    border: 0;
-    border-radius: 16px;
-    padding: 20px 24px;
-    font: inherit;
-    font-size: 17px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    color: #0a0e1a;
-    background: linear-gradient(135deg, #4ade80, #22c55e);
-    cursor: pointer;
-    text-decoration: none;
-    transition: transform 0.15s var(--easing), box-shadow 0.3s var(--easing), filter 0.2s;
-    box-shadow: var(--shadow-glow);
-    position: relative;
-    overflow: hidden;
-  }
-  .cta-primary::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-  .cta-primary:hover { filter: brightness(1.08); }
-  .cta-primary:hover::before { opacity: 1; }
-  .cta-primary:active { transform: scale(0.97); }
-  .cta-primary svg { width: 22px; height: 22px; }
-
-  /* === Secondary === */
-  .secondary-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 14px;
-  }
-  .btn-ghost {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    border: 1px solid var(--border-strong);
-    border-radius: 14px;
-    padding: 14px 18px;
-    font: inherit;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-    background: var(--surface);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    cursor: pointer;
-    transition: all 0.2s var(--easing);
-    text-decoration: none;
-  }
-  .btn-ghost:hover {
-    background: var(--surface-elevated);
-    border-color: rgba(255, 255, 255, 0.2);
-  }
-  .btn-ghost:active { transform: scale(0.98); }
-  .btn-ghost svg { width: 16px; height: 16px; opacity: 0.8; }
-
-  /* === Info card === */
-  .info-card {
-    margin-top: 32px;
-    padding: 16px 18px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    font-size: 13px;
-    color: var(--text-muted);
-    line-height: 1.6;
-  }
-  .info-card details { margin: 0; }
-  .info-card summary {
-    cursor: pointer;
-    color: var(--text);
-    font-weight: 600;
-    font-size: 14px;
-    list-style: none;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 2px 0;
-  }
-  .info-card summary::-webkit-details-marker { display: none; }
-  .info-card summary::after {
-    content: '';
-    width: 8px; height: 8px;
-    border-right: 1.5px solid var(--text-muted);
-    border-bottom: 1.5px solid var(--text-muted);
-    transform: rotate(45deg);
-    transition: transform 0.2s var(--easing);
-  }
-  .info-card details[open] summary::after { transform: rotate(-135deg); }
-  .info-card details p { margin: 12px 0 0; }
-  .info-card a { color: var(--amber); text-decoration: none; }
-  .info-card a:hover { text-decoration: underline; }
-
-  /* === Firefox install card === */
-  .ff-card {
-    margin-top: 16px;
-    padding: 18px;
-    background: linear-gradient(135deg, rgba(251, 146, 60, 0.15), rgba(249, 115, 22, 0.05));
-    border: 1px solid rgba(251, 146, 60, 0.3);
-    border-radius: 16px;
-    color: var(--text);
-    font-size: 14px;
-    animation: slideDown 0.4s var(--easing) both;
-  }
-  .ff-card h3 {
-    margin: 0 0 12px;
-    font-size: 14px;
-    font-weight: 700;
-    color: #fdba74;
-    letter-spacing: -0.01em;
-  }
-  .ff-step {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    margin: 8px 0;
-    font-size: 13px;
-    color: var(--text-muted);
-  }
-  .ff-num {
-    flex: 0 0 22px; height: 22px;
-    border-radius: 50%;
-    background: rgba(251, 146, 60, 0.2);
-    color: #fdba74;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 11px;
-  }
-  .ff-key {
-    display: inline-block;
-    background: rgba(0,0,0,0.3);
-    padding: 1px 6px;
-    border-radius: 4px;
-    font-family: ui-monospace, monospace;
-    font-size: 12px;
-    color: var(--text);
-  }
-  .ff-card .nb {
-    margin-top: 10px;
-    font-size: 12px;
-    color: var(--text-faint);
-    line-height: 1.5;
-  }
-
-  /* === Footer === */
-  .footer {
-    margin-top: auto;
-    padding-top: 24px;
-    text-align: center;
-    font-size: 12px;
-    color: var(--text-faint);
-  }
-  .footer a {
-    color: var(--text-faint);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  .footer a:hover { color: var(--text-muted); }
-  .footer .sep { margin: 0 8px; opacity: 0.5; }
-</style>
 </head>
 <body>
 <div class="wrap">
+  <div class="ff-warn hidden" id="ffWarn">
+    <h3>⚠️ Open in Firefox</h3>
+    <p>Op Android werkt de auto-meld functie alleen in Firefox met Tampermonkey. Chrome ondersteunt geen userscripts.</p>
+    <div class="ff-warn-actions">
+      <a class="ff-warn-btn ff-warn-primary" id="ffOpenBtn" href="#">▶️ Open in Firefox</a>
+      <a class="ff-warn-btn ff-warn-secondary" href="https://play.google.com/store/apps/details?id=org.mozilla.firefox" target="_blank">📥 Installeer Firefox</a>
+    </div>
+  </div>
 
-  <header class="topbar">
-    <a class="brand" href="/">
-      <span class="brand-mark">
-        <svg viewBox="0 0 24 2
+  <div class="badge">B</div>
+  <h1>Geluid binnen</h1>
+  <p class="lead">Vliegtuig hoorbaar binnenshuis — verstuur direct een melding</p>
+  <div class="done-banner hidden" id="doneBanner">✅ <span id="doneText">Melding verstuurd — tap nogmaals voor de volgende vlucht</span></div>
+  <div class="first-share hidden" id="firstShare">
+    <p>🎉 <strong>Eerste melding verstuurd!</strong> Hoe meer buren meedoen, hoe meer impact.</p>
+    <button type="button" onclick="doShare()">📣 Deel met buren</button>
+  </div>
+  <button class="btn btn-pwa" id="installBtn"><span class="em">📥</span><span class="ttl">Toevoegen aan startscherm<small>Daarna 1 tap = melding verstuurd</small></span></button>
+  <div class="ff-card hidden" id="ffCard">
+    <h3>📲 Installeer als app op je startscherm</h3>
+    <div class="ff-step"><div class="ff-num">1</div>Tik <span class="ff-key">⋮</span> in Firefox-menu (rechtsonder op Android)</div>
+    <div class="ff-step"><div class="ff-num">2</div>Kies <strong>Installeren</strong> of <strong>Toevoegen aan startscherm</strong></div>
+    <div class="ff-step"><div class="ff-num">3</div>Bevestig in pop-up + Pixel-scherm</div>
+    <div class="nb">Al geïnstalleerd? Het Meld-icoon staat op je startscherm of in je app-lijst (Pixel: Instellingen → Startscherm → "App-icoontjes toevoegen aan startscherm" AAN).</div>
+    <div class="arrow-down">⬇️</div>
+  </div>
+  <a class="btn btn-go" id="goBtn" href="https://ein.flighttracking.casper.aero/portal/?klachtnu=1&sub=2"><span class="em">➜</span><span class="ttl">Melding versturen<small>Geluid binnen</small></span></a>
+  <div class="stats hidden" id="histStats"></div>
+  <button class="btn btn-share" id="shareBtn" onclick="doShare()">
+    <span class="em">📤</span><span class="ttl">Deel met buren<small>WhatsApp · Mail · Copy link</small></span>
+  </button>
+  <div class="info"><p><strong>MeldGeluidsoverlast — Geluid binnen</strong> dient automatisch een melding in op het Casper-portaal van Eindhoven Airport. Het script vult datum, tijd en oorzaak voor je in en klikt op Verstuur.</p><p style="margin-top:8px"><a href="install.html">→ Installatie-instructies</a></p></div>
+  <small class="ftnote"><a href="https://meldgeluidsoverlast.nl/">meldgeluidsoverlast.nl</a> · <a href="?reset">↻ Reset</a> · <a href="#" id="clearHist">Historie wissen</a></small>
+</div>
+<script>
+  var TARGET = 'https://ein.flighttracking.casper.aero/portal/?klachtnu=1&sub=2';
+  var FLAG = 'klacht-binnen-installed';
+  var TYPE = 'binnen';
+  var doReset = /[?&]reset(=|&|$)/i.test(location.search);
+  var justDone = /[?&]done(=|&|$)/i.test(location.search);
+  if (doReset) { try { localStorage.removeItem(FLAG); } catch (e) {} history.replaceState({}, '', location.pathname); }
+  if (justDone) {
+    history.replaceState({}, '', location.pathname);
+    var db = document.getElementById('doneBanner');
+    if (db) db.classList.remove('hidden');
+  }
+  function applyDoneCounter() {
+    if (!justDone) return;
+    var h;
+    try { h = JSON.parse(localStorage.getItem('klacht-history') || '[]'); } catch (e) { h = []; }
+    var total = h.length;
+    var doneText = document.getElementById('doneText');
+    if (total === 1 && doneText) {
+      doneText.textContent = 'Eerste melding verstuurd! Tap nogmaals voor de volgende vlucht';
+      var fs = document.getElementById('firstShare');
+      if (fs) fs.classList.remove('hidden');
+    } else if (total > 0 && doneText) {
+      doneText.textContent = 'Melding #' + total + ' verstuurd — tap voor de volgende vlucht';
+    }
+  }
+  applyDoneCounter();
+  var isStandalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  var isAndroid = /Android/.test(navigator.userAgent);
+  var isFirefox = /Firefox/.test(navigator.userAgent);
+  if (isStandalone && !doReset && !justDone) { location.replace(TARGET); }
+
+  // Show Firefox warning on Android Chrome (Chrome op Android ondersteunt geen userscripts)
+  if (isAndroid && !isFirefox) {
+    var ffWarn = document.getElementById('ffWarn');
+    var ffOpenBtn = document.getElementById('ffOpenBtn');
+    var here = location.host + location.pathname + location.search;
+    var fallback = encodeURIComponent('https://play.google.com/store/apps/details?id=org.mozilla.firefox');
+    if (ffOpenBtn) {
+      ffOpenBtn.href = 'intent://' + here + '#Intent;scheme=https;package=org.mozilla.firefox;S.browser_fallback_url=' + fallback + ';end';
+    }
+    if (ffWarn) ffWarn.classList.remove('hidden');
+  }
+  function getHistory() { try { return JSON.parse(localStorage.getItem('klacht-history') || '[]'); } catch (e) { return []; } }
+  function logKlacht(type) {
+    var h = getHistory();
+    h.push({ ts: Date.now(), type: type });
+    var cutoff = Date.now() - 365 * 24 * 60 * 60 * 1000;
+    h = h.filter(function (e) { return e.ts > cutoff; });
+    try { localStorage.setItem('klacht-history', JSON.stringify(h)); } catch (e) {}
+  }
+  function showStats() {
+    var h = getHistory();
+    if (!h.length) return;
+    var d = new Date(); d.setHours(0, 0, 0, 0);
+    var startToday = d.getTime();
+    var startWeek = startToday - 6 * 24 * 60 * 60 * 1000;
+    var today = h.filter(function (e) { return e.ts >= startToday; }).length;
+    var week = h.filter(function (e) { return e.ts >= startWeek; }).length;
+    var total = h.length;
+    var el = document.getElementById('histStats');
+    if (el) {
+      el.innerHTML = '📊 <strong>' + today + '</strong> vandaag · <strong>' + week + '</strong> deze week · <strong>' + total + '</strong> totaal';
+      el.classList.remove('hidden');
+    }
+  }
+  showStats();
+  document.getElementById('clearHist').addEventListener('click', function (e) {
+    e.preventDefault();
+    if (confirm('Weet je zeker dat je je meld-historie wilt wissen?')) {
+      try { localStorage.removeItem('klacht-history'); } catch (er) {}
+      var s = document.getElementById('histStats');
+      if (s) s.classList.add('hidden');
+    }
+  });
+  var deferredPrompt = null;
+  var installBtn = document.getElementById('installBtn');
+  var ffCard = document.getElementById('ffCard');
+  window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); deferredPrompt = e; });
+  installBtn.addEventListener('click', function () {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(function (r) {
+        if (r && r.outcome === 'accepted') { installBtn.classList.add('hidden-after-install'); localStorage.setItem(FLAG, 'ye

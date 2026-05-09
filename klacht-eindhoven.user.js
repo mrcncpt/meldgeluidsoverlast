@@ -268,4 +268,3 @@
         showBanner(0, 'Log eerst in en tap opnieuw op icoon', '#ffb800');
     }
 })();
-                                             

@@ -84,6 +84,7 @@
     "url": "https://meldgeluidsoverlast.nl/"
   }
 }</script>
+  <script src="track.js" defer></script>
 </head>
 <body>
 <div class="wrap">
@@ -250,6 +251,7 @@
   document.getElementById('goBtn').addEventListener('click', function () {
     localStorage.setItem(FLAG, 'yes');
     logKlacht(TYPE);
+    if (window.mgTrack) window.mgTrack('melding', TYPE);
   });
 
   window.addEventListener('appinstalled', function () {

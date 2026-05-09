@@ -28,7 +28,8 @@ $Files = @(
     "og-image.svg",
     "qr-install.svg",
     "style.css",
-    "notify.js"
+    "notify.js",
+    ".htaccess"
 )
 # NOTE: proxy.py wordt NIET gedeployed — dat is een lokale CORS-proxy voor dev only.
 
@@ -67,4 +68,5 @@ if ($ExitCode -eq 0) {
     Write-Host "Test: open https://meldgeluidsoverlast.nl/binnen.html" -ForegroundColor Gray
 } else {
     Write-Host "=== Deploy mislukt (exit code $ExitCode) ===" -ForegroundColor Red
-    Write-Host "Check 
+    Write-Host "Check de SSH-foutmeldingen hierboven." -ForegroundColor Yellow
+}

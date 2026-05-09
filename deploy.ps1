@@ -29,9 +29,11 @@ $Files = @(
     "qr-install.svg",
     "style.css",
     "notify.js",
+    "opensky.php",
     ".htaccess"
 )
 # NOTE: proxy.py wordt NIET gedeployed — dat is een lokale CORS-proxy voor dev only.
+#       Op productie regelt opensky.php (PHP) hetzelfde via /api/opensky rewrite.
 
 # === Header ===
 Write-Host ""
@@ -67,6 +69,4 @@ if ($ExitCode -eq 0) {
     Write-Host ""
     Write-Host "Test: open https://meldgeluidsoverlast.nl/binnen.html" -ForegroundColor Gray
 } else {
-    Write-Host "=== Deploy mislukt (exit code $ExitCode) ===" -ForegroundColor Red
-    Write-Host "Check de SSH-foutmeldingen hierboven." -ForegroundColor Yellow
-}
+    Write-Host "=== Deploy mislukt (exit code $ExitCode) ===" -

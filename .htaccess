@@ -16,8 +16,11 @@
     RewriteCond %{HTTP:X-Forwarded-Proto} !https
     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]
 
-    # === API rewrite: /api/opensky → /opensky.php (queryparams meenemen) ===
+    # === API rewrites ===
+    # /api/opensky → /opensky.php (vliegtuig-data proxy)
     RewriteRule ^api/opensky/?$ /opensky.php [L,QSA]
+    # /api/track → /track.php (anonieme analytics)
+    RewriteRule ^api/track/?$ /track.php [L,QSA]
 </IfModule>
 
 # === 2. Security headers ======================================================
@@ -79,7 +82,4 @@
     AddOutputFilterByType DEFLATE image/svg+xml
 </IfModule>
 
-# === 5. Charset ================================================================
-AddDefaultCharset UTF-8
-
-# === 6. Mime types ===========================================================
+# === 5. Charset =============================================================

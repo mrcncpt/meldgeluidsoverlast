@@ -207,12 +207,15 @@
 
   document.querySelectorAll('.klachtbtn').forEach(function (a) {
     var url = a.dataset.href;
-    if (isAndroid) {
+    if (isAndroid && !isFirefox) {
+      // Op Android Chrome / Edge / Samsung Internet etc. → force Firefox via intent://
       var u = new URL(url);
       var intentUrl = 'intent://' + u.host + u.pathname + u.search + u.hash +
-                      '#Intent;scheme=https;package=org.mozilla.firefox;end';
+                      '#Intent;scheme=https;package=org.mozilla.firefox;S.browser_fallback_url=' +
+                      encodeURIComponent('https://play.google.com/store/apps/details?id=org.mozilla.firefox') + ';end';
       a.href = intentUrl;
     } else {
+      // Op Firefox Android, iOS, of desktop → gewoon de https URL openen
       a.href = url;
     }
   });
@@ -296,4 +299,4 @@
 <script src="notify.js"></script>
 </body>
 </html>
-                                                                                                                                                                                                                                                                                                                                        
+       

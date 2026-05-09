@@ -114,15 +114,9 @@
       + '&lomin=' + box.lomin
       + '&lomax=' + box.lomax;
 
-    // OpenSky blokkeert CORS — gebruik lokale proxy (dev) of Cloudflare Worker (prod)
-    var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-    var url;
-    if (isLocal) {
-      url = '/api/opensky?' + apiUrl.split('?')[1];
-    } else {
-      url = 'https://opensky-proxy.meldgeluidsoverlast.nl/api/states/all'
-        + '?' + apiUrl.split('?')[1];
-    }
+    // OpenSky blokkeert CORS direct — we gebruiken altijd /api/opensky
+    // (lokaal: proxy.py, productie: opensky.php via .htaccess rewrite)
+    var url = '/api/opensky?' + apiUrl.split('?')[1];
 
     console.log('[MG] Fetching:', url);
     var controller = new AbortController();
@@ -313,3 +307,4 @@
     }
   }
 })();
+                                                                                                                                                                                                  

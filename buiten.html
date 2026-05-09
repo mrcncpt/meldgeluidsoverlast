@@ -74,6 +74,9 @@
   .ff-warn-primary{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;box-shadow:0 4px 14px rgba(220,38,38,.35)}
   .ff-warn-primary:hover{filter:brightness(1.08)}
   .ff-warn-secondary{background:rgba(255,255,255,.04);color:#e8eef9;border:1px solid #374151}
+  .ff-warn{position:relative}
+  .ff-warn-close{position:absolute;top:8px;right:8px;background:transparent;border:0;color:#fca5a5;font-size:18px;cursor:pointer;padding:4px 8px;line-height:1;font-weight:700;font-family:inherit}
+  .ff-warn-close:hover{color:#fff}
   .ff-warn-secondary:hover{background:rgba(255,255,255,.08)}
 </style>
 <script type="application/ld+json">{
@@ -94,7 +97,8 @@
 </head>
 <body>
 <div class="wrap">
-  <div class="ff-warn" id="ffWarn">
+  <div class="ff-warn hidden" id="ffWarn">
+    <button class="ff-warn-close" type="button" onclick="document.getElementById('ffWarn').style.display='none';try{sessionStorage.setItem('ffWarnDismissed','1')}catch(e){}" aria-label="Sluiten">×</button>
     <h3>⚠️ Open in Firefox</h3>
     <p>Op Android werkt de auto-meld functie alleen in Firefox met Tampermonkey. Chrome ondersteunt geen userscripts.</p>
     <div class="ff-warn-actions">
@@ -157,24 +161,25 @@
   applyDoneCounter();
   var isStandalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
   var isAndroid = /Android/.test(navigator.userAgent);
-  var isFirefox = /Firefox/.test(navigator.userAgent);
+  var isFirefox = /Firefox|FxiOS/i.test(navigator.userAgent);
   if (isStandalone && !doReset && !justDone) { location.replace(TARGET); }
 
-  // Firefox warning: standaard zichtbaar, alleen verbergen op desktop/Firefox/standalone
+  // Firefox warning: alleen tonen op Android Chrome (install.html-aanpak)
+  // - Standaard verborgen via .hidden class
+  // - Alleen tonen als Android EN niet-Firefox EN niet-PWA
   (function () {
+    if (isStandalone) return;
+    if (!isAndroid || isFirefox) return;
     var ffWarn = document.getElementById('ffWarn');
     var ffOpenBtn = document.getElementById('ffOpenBtn');
     if (!ffWarn) return;
-    if (isStandalone || isFirefox || !isAndroid) {
-      ffWarn.style.display = 'none';
-      return;
-    }
-    // On Android non-Firefox: build intent URL for "Open in Firefox" button
+    try { if (sessionStorage.getItem('ffWarnDismissed') === '1') return; } catch (e) {}
     if (ffOpenBtn) {
       var here = location.host + location.pathname + location.search;
       var fallback = encodeURIComponent('https://play.google.com/store/apps/details?id=org.mozilla.firefox');
       ffOpenBtn.href = 'intent://' + here + '#Intent;scheme=https;package=org.mozilla.firefox;S.browser_fallback_url=' + fallback + ';end';
     }
+    ffWarn.classList.remove('hidden');
   })();
   function getHistory() { try { return JSON.parse(localStorage.getItem('klacht-history') || '[]'); } catch (e) { return []; } }
   function logKlacht(type) {

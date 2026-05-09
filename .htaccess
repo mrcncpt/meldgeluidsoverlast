@@ -3,9 +3,13 @@
 
 # === 1. Force HTTPS ============================================================
 # Alle http:// requests → 301 permanent redirect naar https://
-# Werkt achter proxy/load-balancer (X-Forwarded-Proto) en bij directe SSL-termination
+# Behalve /.well-known/acme-challenge/ — dat moet bereikbaar blijven via HTTP
+# anders kan Let's Encrypt het SSL-cert niet auto-renewen.
 <IfModule mod_rewrite.c>
     RewriteEngine On
+
+    # SKIP redirect voor Let's Encrypt ACME-challenges (HTTP-01 verificatie)
+    RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/
 
     # http (zonder SSL) → https
     RewriteCond %{HTTPS} !=on
@@ -79,9 +83,4 @@ AddDefaultCharset UTF-8
 <IfModule mod_mime.c>
     AddType application/manifest+json    .json
     AddType image/svg+xml                .svg .svgz
-    AddType text/x-userscript            .user.js
-</IfModule>
-
-# === 7. Custom error pages (toekomst) =========================================
-# ErrorDocument 404 /404.html
-# ErrorDocument 500 /500.html
+    AddTyp

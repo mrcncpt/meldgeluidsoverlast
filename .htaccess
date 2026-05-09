@@ -15,6 +15,9 @@
     RewriteCond %{HTTPS} !=on
     RewriteCond %{HTTP:X-Forwarded-Proto} !https
     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]
+
+    # === API rewrite: /api/opensky → /opensky.php (queryparams meenemen) ===
+    RewriteRule ^api/opensky/?$ /opensky.php [L,QSA]
 </IfModule>
 
 # === 2. Security headers ======================================================
@@ -79,8 +82,4 @@
 # === 5. Charset ================================================================
 AddDefaultCharset UTF-8
 
-# === 6. Mime types =============================================================
-<IfModule mod_mime.c>
-    AddType application/manifest+json    .json
-    AddType image/svg+xml                .svg .svgz
-    AddTyp
+# === 6. Mime types ===========================================================

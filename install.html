@@ -260,9 +260,158 @@
 
   </div>
 
+
   <!-- DESKTOP -->
   <div class="tab-content" id="tab-desktop">
     <div class="step">
       <h2><span class="num">1</span>Installeer Tampermonkey</h2>
       <p>Werkt in Chrome, Firefox, Edge en Brave.</p>
-      <a class="st                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+      <a class="step-btn" href="https://www.tampermonkey.net/" target="_blank">▶️ Tampermonkey downloaden</a>
+      <p class="hint">In Chrome: ga naar <code>chrome://extensions/</code> → Developer Mode aan → "Allow user scripts" aan.</p>
+    </div>
+
+    <div class="step">
+      <h2><span class="num">2</span>Installeer het Meld-script</h2>
+      <a class="step-btn" href="https://www.meldgeluidsoverlast.nl/klacht-eindhoven.user.js">▶️ Meld-script installeren</a>
+    </div>
+
+    <div class="step">
+      <h2><span class="num">3</span>Log in op Casper</h2>
+      <a class="step-btn step-btn-sec" href="https://ein.flighttracking.casper.aero/portal/" target="_blank">▶️ Casper-portaal</a>
+    </div>
+
+    <div class="step">
+      <h2><span class="num">4</span>Open de melder</h2>
+      <p>Vanaf hier kies je het type melding en zet je optioneel notificaties aan.</p>
+      <a class="step-btn" href="start.html">▶️ Open de melder</a>
+    </div>
+  </div>
+
+  <!-- Help / contact -->
+  <div class="step" style="margin-top:24px;border:1px dashed var(--border)">
+    <h2><span class="num">?</span>Hulp nodig?</h2>
+    <p>Mail <a href="mailto:info@meldgeluidsoverlast.nl?subject=Hulp%20bij%20installatie" style="color:var(--green)">info@meldgeluidsoverlast.nl</a> of stel je vraag op <a href="https://github.com/mrcncpt/klacht-eindhoven/issues" target="_blank" style="color:var(--green)">GitHub</a>.</p>
+  </div>
+
+  <p class="footer" style="text-align:center;color:var(--text-faint);font-size:12px;margin-top:30px">
+    <a href="https://meldgeluidsoverlast.nl/" style="color:var(--text-faint)">meldgeluidsoverlast.nl</a> ·
+    <a href="https://github.com/mrcncpt/klacht-eindhoven" target="_blank" style="color:var(--text-faint)">Open source op GitHub</a> · MIT License
+  </p>
+
+</div>
+
+<script>
+  // === Auto-detect platform en switch naar juiste tab ===
+  (function () {
+    var ua = navigator.userAgent;
+    var clickTab = function (sel) {
+      var t = document.querySelector('[data-tab="' + sel + '"]');
+      if (t) t.click();
+    };
+    if (/iPhone|iPad/.test(ua)) {
+      clickTab('iphone');
+    } else if (!/Android/.test(ua)) {
+      clickTab('desktop');
+    }
+    // Default = android tab (al actief)
+  })();
+
+  // === Tab switching ===
+  (function () {
+    var tabs = document.querySelectorAll('.tab');
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        var target = tab.dataset.tab;
+        document.querySelectorAll('.tab').forEach(function (t) { t.classList.remove('active'); });
+        document.querySelectorAll('.tab-content').forEach(function (c) { c.classList.remove('active'); });
+        tab.classList.add('active');
+        var pane = document.getElementById('tab-' + target);
+        if (pane) pane.classList.add('active');
+      });
+    });
+  })();
+
+  // === Stap 1: Firefox detectie — markeer als 'done' als deze pagina al in Firefox draait ===
+  (function () {
+    var ua = navigator.userAgent;
+    if (/Firefox|FxiOS/i.test(ua)) {
+      var s = document.getElementById('stepFF');
+      if (s) s.classList.add('done');
+    }
+  })();
+
+  // === Stap 2 + 3: Tampermonkey + userscript detectie ===
+  // Userscript v1.6+ zet document.body.dataset.tmKlachtScript en/of dispatcht 'tm-klacht-loaded'
+  // v1.8+ zet document.body.dataset.tmMgoScript en/of dispatcht 'tm-mgo-loaded'
+  // Aanwezigheid = Tampermonkey én script aanwezig — dus stap 2 en 3 zijn klaar.
+  (function () {
+    var sTM = document.getElementById('stepTM');
+    var sScript = document.getElementById('stepScript');
+    function markDone() {
+      if (sTM) sTM.classList.add('done');
+      if (sScript) sScript.classList.add('done');
+    }
+    function check() {
+      if (document.body && document.body.dataset && (document.body.dataset.tmMgoScript || document.body.dataset.tmKlachtScript)) {
+        markDone();
+        return true;
+      }
+      return false;
+    }
+    // 1. Direct check
+    if (check()) return;
+    // 2. Wacht op events
+    document.addEventListener('tm-mgo-loaded', markDone, { once: true });
+    document.addEventListener('tm-klacht-loaded', markDone, { once: true });
+    // 3. Periodieke check (max ~5 sec)
+    var tries = 0;
+    var iv = setInterval(function () {
+      tries++;
+      if (check() || tries > 25) {
+        clearInterval(iv);
+      }
+    }, 200);
+  })();
+
+  // === Chrome op Android: toon FF-warning + zet alle https-links om naar intent:// ===
+  (function () {
+    var ua = navigator.userAgent;
+    var isAndroid = /Android/.test(ua);
+    var isFirefox = /Firefox|FxiOS/i.test(ua);
+    if (!isAndroid || isFirefox) return;
+
+    var warn = document.getElementById('ffWarn');
+    var btn = document.getElementById('ffOpenBtn');
+    if (warn && btn) {
+      var here = location.host + location.pathname + location.search;
+      btn.href = 'intent://' + here + '#Intent;scheme=https;package=org.mozilla.firefox;S.browser_fallback_url=' +
+        encodeURIComponent('https://play.google.com/store/apps/details?id=org.mozilla.firefox') + ';end';
+      warn.classList.add('show');
+      window.scrollTo(0, 0);
+    }
+
+    // Zet alle externe https-links naar intent:// zodat ze in Firefox openen
+    document.querySelectorAll('a[href^="https://"]').forEach(function (a) {
+      try {
+        var u = new URL(a.href);
+        if (a.id === 'ffOpenBtn') return;
+        a.href = 'intent://' + u.host + u.pathname + u.search + u.hash +
+          '#Intent;scheme=https;package=org.mozilla.firefox;end';
+        a.removeAttribute('target');
+      } catch (e) {}
+    });
+  })();
+
+  // === Share-functie voor de QR-sectie ===
+  function shareApp() {
+    var url = "https://meldgeluidsoverlast.nl/";
+    var text = "Last van geluidsoverlast Eindhoven Airport? Deze app dient in 1 tap een melding in.";
+    if (navigator.share) {
+      navigator.share({title: "MeldGeluidsoverlast", text: text, url: url}).catch(function(e){});
+    } else {
+      window.open("https://wa.me/?text=" + encodeURIComponent(text + " " + url), "_blank");
+    }
+  }
+</script>
+</body>
+</html>

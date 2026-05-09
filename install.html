@@ -260,7 +260,6 @@
 
   </div>
 
-
   <!-- DESKTOP -->
   <div class="tab-content" id="tab-desktop">
     <div class="step">
@@ -287,17 +286,17 @@
     </div>
   </div>
 
-  <!-- Help / contact -->
-  <div class="step" style="margin-top:24px;border:1px dashed var(--border)">
-    <h2><span class="num">?</span>Hulp nodig?</h2>
-    <p>Mail <a href="mailto:info@meldgeluidsoverlast.nl?subject=Hulp%20bij%20installatie" style="color:var(--green)">info@meldgeluidsoverlast.nl</a> of stel je vraag op <a href="https://github.com/mrcncpt/klacht-eindhoven/issues" target="_blank" style="color:var(--green)">GitHub</a>.</p>
+  <div class="help-card">
+    <h3>Hulp nodig?</h3>
+    <p>Mail <a href="mailto:info@meldgeluidsoverlast.nl?subject=Hulp%20bij%20installatie">info@meldgeluidsoverlast.nl</a> of stel je vraag op <a href="https://github.com/mrcncpt/klacht-eindhoven/issues" target="_blank">GitHub</a>.</p>
   </div>
 
-  <p class="footer" style="text-align:center;color:var(--text-faint);font-size:12px;margin-top:30px">
+  <p style="text-align:center;color:var(--text-faint);font-size:12px;margin-top:30px">
     <a href="https://meldgeluidsoverlast.nl/" style="color:var(--text-faint)">meldgeluidsoverlast.nl</a> ·
     <a href="https://github.com/mrcncpt/klacht-eindhoven" target="_blank" style="color:var(--text-faint)">Open source op GitHub</a> · MIT License
   </p>
 
+</div>
 </div>
 
 <script>
@@ -308,18 +307,13 @@
       var t = document.querySelector('[data-tab="' + sel + '"]');
       if (t) t.click();
     };
-    if (/iPhone|iPad/.test(ua)) {
-      clickTab('iphone');
-    } else if (!/Android/.test(ua)) {
-      clickTab('desktop');
-    }
-    // Default = android tab (al actief)
+    if (/iPhone|iPad/.test(ua)) clickTab('iphone');
+    else if (!/Android/.test(ua)) clickTab('desktop');
   })();
 
   // === Tab switching ===
   (function () {
-    var tabs = document.querySelectorAll('.tab');
-    tabs.forEach(function (tab) {
+    document.querySelectorAll('.tab').forEach(function (tab) {
       tab.addEventListener('click', function () {
         var target = tab.dataset.tab;
         document.querySelectorAll('.tab').forEach(function (t) { t.classList.remove('active'); });
@@ -331,19 +325,17 @@
     });
   })();
 
-  // === Stap 1: Firefox detectie — markeer als 'done' als deze pagina al in Firefox draait ===
+  // === Stap Firefox: markeer als 'done' als pagina al in Firefox draait ===
   (function () {
-    var ua = navigator.userAgent;
-    if (/Firefox|FxiOS/i.test(ua)) {
+    if (/Firefox|FxiOS/i.test(navigator.userAgent)) {
       var s = document.getElementById('stepFF');
       if (s) s.classList.add('done');
     }
   })();
 
-  // === Stap 2 + 3: Tampermonkey + userscript detectie ===
-  // Userscript v1.6+ zet document.body.dataset.tmKlachtScript en/of dispatcht 'tm-klacht-loaded'
+  // === Stap Tampermonkey + script: markeer als 'done' als userscript draait ===
+  // v1.6+ zet document.body.dataset.tmKlachtScript en/of dispatcht 'tm-klacht-loaded'
   // v1.8+ zet document.body.dataset.tmMgoScript en/of dispatcht 'tm-mgo-loaded'
-  // Aanwezigheid = Tampermonkey én script aanwezig — dus stap 2 en 3 zijn klaar.
   (function () {
     var sTM = document.getElementById('stepTM');
     var sScript = document.getElementById('stepScript');
@@ -358,18 +350,13 @@
       }
       return false;
     }
-    // 1. Direct check
     if (check()) return;
-    // 2. Wacht op events
     document.addEventListener('tm-mgo-loaded', markDone, { once: true });
     document.addEventListener('tm-klacht-loaded', markDone, { once: true });
-    // 3. Periodieke check (max ~5 sec)
     var tries = 0;
     var iv = setInterval(function () {
       tries++;
-      if (check() || tries > 25) {
-        clearInterval(iv);
-      }
+      if (check() || tries > 25) clearInterval(iv);
     }, 200);
   })();
 
@@ -390,7 +377,6 @@
       window.scrollTo(0, 0);
     }
 
-    // Zet alle externe https-links naar intent:// zodat ze in Firefox openen
     document.querySelectorAll('a[href^="https://"]').forEach(function (a) {
       try {
         var u = new URL(a.href);
@@ -402,7 +388,6 @@
     });
   })();
 
-  // === Share-functie voor de QR-sectie ===
   function shareApp() {
     var url = "https://meldgeluidsoverlast.nl/";
     var text = "Last van geluidsoverlast Eindhoven Airport? Deze app dient in 1 tap een melding in.";

@@ -55,25 +55,19 @@
     <div class="stats-pill" id="statsPill"></div>
   </div>
 
-  <!-- Features -->
-  <div class="features">
-    <div class="feature">
-      <div class="feature-icon">⚡</div>
-      <div class="feature-text">1 tap melden</div>
-    </div>
-    <div class="feature">
-      <div class="feature-icon">🤖</div>
-      <div class="feature-text">Automatisch invullen</div>
-    </div>
-    <div class="feature">
-      <div class="feature-icon">📱</div>
-      <div class="feature-text">Werkt op mobiel</div>
-    </div>
-    <div class="feature">
-      <div class="feature-icon">🔓</div>
-      <div class="feature-text">100% open source</div>
-    </div>
+  <!-- Features (compact: kleine inline pills, geen open-source meer) -->
+  <div class="features features--compact">
+    <span class="feature"><span class="feature-icon">⚡</span><span class="feature-text">1 tap melden</span></span>
+    <span class="feature"><span class="feature-icon">🤖</span><span class="feature-text">Automatisch invullen</span></span>
+    <span class="feature"><span class="feature-icon">📱</span><span class="feature-text">Werkt op mobiel</span></span>
   </div>
+  <style>
+    /* Compacte feature-pills — kleine inline-row ipv groot grid */
+    .features.features--compact{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 8px;margin:8px 0 18px}
+    .features.features--compact .feature{display:inline-flex;align-items:center;gap:6px;background:var(--surface,#161d2f);border:1px solid var(--border,#243150);border-radius:999px;padding:4px 10px;font-size:12px;color:var(--text-muted,#9aa6bd);box-shadow:none}
+    .features.features--compact .feature-icon{font-size:13px;line-height:1}
+    .features.features--compact .feature-text{font-size:12px;font-weight:500}
+  </style>
 
   <!-- CTA buttons -->
   <div class="section-title">Aan de slag</div>
@@ -87,16 +81,4 @@
     <span class="chevron">›</span>
   </a>
 
-  <a class="btn btn--blue" href="start.html">
-    <span class="icon">▶️</span>
-    <span class="label">
-      <span class="title">Direct naar de melder</span>
-      <span class="subtitle">Al geinstalleerd? Kies hier je type.</span>
-    </span>
-    <span class="chevron">›</span>
-  </a>
-
-  <!-- How it works -->
-  <div class="glass-card mt-lg">
-    <strong>Hoe werkt het?</strong>
-    <p>MeldGeluidsoverlast vult automatisch datum, tijd en oorzaak in op het Casper-portaal van Eindhoven Airport en verstuurt je melding. Je hoeft alleen maar op een
+  <a class="btn btn--blue" href="

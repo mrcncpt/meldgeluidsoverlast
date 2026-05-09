@@ -1,0 +1,87 @@
+# MeldGeluidsoverlast .htaccess
+# Apache config voor productie op ZXCS shared hosting
+
+# === 1. Force HTTPS ============================================================
+# Alle http:// requests → 301 permanent redirect naar https://
+# Werkt achter proxy/load-balancer (X-Forwarded-Proto) en bij directe SSL-termination
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # http (zonder SSL) → https
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]
+</IfModule>
+
+# === 2. Security headers ======================================================
+<IfModule mod_headers.c>
+    # HSTS — browser onthoudt 1 jaar dat deze site alleen via HTTPS bereikbaar is.
+    # Inclusief subdomeinen (incl. www). preload-ready.
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+    # Voorkom dat de site in een iframe geladen wordt op andere domeinen (clickjacking-bescherming)
+    Header always set X-Frame-Options "SAMEORIGIN"
+
+    # MIME-type sniffing uit (XSS-bescherming)
+    Header always set X-Content-Type-Options "nosniff"
+
+    # Referrer-policy: stuur geen referrer naar externe sites (privacy)
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # Permissions-Policy: deze site gebruikt geen camera/mic/geolocation/etc.
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+</IfModule>
+
+# === 3. Cache control =========================================================
+# Static assets (icons, images, fonts) — lang cachen
+# HTML — kort cachen (zodat updates snel doorkomen)
+<IfModule mod_expires.c>
+    ExpiresActive On
+
+    # Default: 1 dag
+    ExpiresDefault                              "access plus 1 day"
+
+    # HTML — kort, zodat redesigns snel zichtbaar zijn
+    ExpiresByType text/html                     "access plus 5 minutes"
+
+    # Manifests — kort (PWA updates)
+    ExpiresByType application/manifest+json     "access plus 1 hour"
+    ExpiresByType application/json              "access plus 1 hour"
+
+    # Stylesheets en scripts — 1 dag (versie via filename of querystring zetten als nodig)
+    ExpiresByType text/css                      "access plus 1 day"
+    ExpiresByType application/javascript        "access plus 1 day"
+    ExpiresByType text/javascript               "access plus 1 day"
+
+    # Afbeeldingen — 7 dagen
+    ExpiresByType image/svg+xml                 "access plus 7 days"
+    ExpiresByType image/png                     "access plus 7 days"
+    ExpiresByType image/jpeg                    "access plus 7 days"
+    ExpiresByType image/webp                    "access plus 7 days"
+    ExpiresByType image/x-icon                  "access plus 30 days"
+
+    # Userscript — kort (Tampermonkey checkt updates via @updateURL)
+    ExpiresByType text/x-userscript             "access plus 1 hour"
+</IfModule>
+
+# === 4. Compressie ============================================================
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+    AddOutputFilterByType DEFLATE application/javascript application/json
+    AddOutputFilterByType DEFLATE application/xml application/xml+rss
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# === 5. Charset ================================================================
+AddDefaultCharset UTF-8
+
+# === 6. Mime types =============================================================
+<IfModule mod_mime.c>
+    AddType application/manifest+json    .json
+    AddType image/svg+xml                .svg .svgz
+    AddType text/x-userscript            .user.js
+</IfModule>
+
+# === 7. Custom error pages (toekomst) =========================================
+# ErrorDocument 404 /404.html
+# ErrorDocument 500 /500.html

@@ -1,0 +1,12 @@
+# Deny direct web access to all files in this directory
+# Stats data leeft hier — alleen track.php (zelfde directory hoger) mag erin schrijven,
+# alleen admin.php (met geheime key) mag eruit lezen.
+<RequireAll>
+    Require all denied
+</RequireAll>
+
+# Fallback voor oudere Apache versies
+<IfModule !mod_authz_core.c>
+    Order deny,allow
+    Deny from all
+</IfModule>

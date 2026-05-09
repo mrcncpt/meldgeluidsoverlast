@@ -21,6 +21,11 @@
     RewriteRule ^api/opensky/?$ /opensky.php [L,QSA]
     # /api/track → /track.php (anonieme analytics)
     RewriteRule ^api/track/?$ /track.php [L,QSA]
+
+    # === Privé: stats-data niet via web bereikbaar ===
+    # private/ bevat de geanonimiseerde tracking-data, alleen track.php (server-side)
+    # mag schrijven en alleen admin.php (met geheime key) mag lezen.
+    RewriteRule ^private(/.*)?$ - [F,L]
 </IfModule>
 
 # === 2. Security headers ======================================================
@@ -77,9 +82,4 @@
 # === 4. Compressie ============================================================
 <IfModule mod_deflate.c>
     AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
-    AddOutputFilterByType DEFLATE application/javascript application/json
-    AddOutputFilterByType DEFLATE application/xml application/xml+rss
-    AddOutputFilterByType DEFLATE image/svg+xml
-</IfModule>
-
-# === 5. Charset =============================================================
+    AddOutputFilterByType DEFL

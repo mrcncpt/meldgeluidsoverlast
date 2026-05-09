@@ -23,6 +23,7 @@ $Files = @(
     "start.html",
     "index.html",
     "klacht.html",
+    "stats.html",
     "robots.txt",
     "sitemap.xml",
     "og-image.svg",
@@ -69,4 +70,4 @@ if ($ExitCode -eq 0) {
     Write-Host ""
     Write-Host "Test: open https://meldgeluidsoverlast.nl/binnen.html" -ForegroundColor Gray
 } else {
-    Write-Host "=== Deploy mislukt (exit code $ExitCode) ===" -
+    Write-Host "=== Deploy mislukt (exit code

@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mijn meldingen — MeldGeluidsoverlast</title>
+<meta name="theme-color" content="#0e1320">
+<meta name="description" content="Persoonlijk overzicht van je geluidsmeldingen aan Eindhoven Airport.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MeldGeluidsoverlast">
+<meta property="og:title" content="Mijn meldingen — MeldGeluidsoverlast">
+<meta property="og:description" content="Persoonlijk overzicht van je geluidsmeldingen.">
+<meta property="og:url" content="https://meldgeluidsoverlast.nl/stats.html">
+<link rel="canonical" href="https://meldgeluidsoverlast.nl/stats.html">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiNmZmI4MDAiLz48cGF0aCBmaWxsPSIjMWExMzAwIiBkPSJNMzIgMTNsNCAxOCAxNCA2LTE0IDQtNCAxMi00LTEyLTE0LTQgMTQtNnoiLz48L3N2Zz4=">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* Stats-specific */
+  .stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
+  .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center}
+  .stat-card.featured{grid-column:1/-1;background:linear-gradient(135deg,rgba(255,184,0,.1),rgba(255,184,0,.02));border-color:rgba(255,184,0,.3)}
+  .stat-card .num{font-size:36px;font-weight:800;color:var(--accent,#ffb800);line-height:1;letter-spacing:-0.02em}
+  .stat-card.featured .num{font-size:54px}
+  .stat-card .label{font-size:12px;color:var(--text-muted,#9aa6bd);text-transform:uppercase;letter-spacing:0.05em;margin-top:8px;font-weight:600}
+  .stat-card.empty{opacity:0.5}
+  .stat-card.empty .num{color:var(--text-faint,#5d6680)}
+
+  .empty-state{text-align:center;padding:48px 20px;color:var(--text-muted,#9aa6bd);background:var(--surface);border-radius:14px;border:1px dashed var(--border)}
+  .empty-state h3{margin:0 0 8px;color:var(--text);font-size:16px}
+  .empty-state p{margin:4px 0;font-size:13px;line-height:1.5}
+
+  .chart-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:16px}
+  .chart-card h3{margin:0 0 14px;font-size:14px;color:var(--text);font-weight:700;display:flex;align-items:center;justify-content:space-between}
+  .chart-card h3 .meta{font-size:11px;color:var(--text-faint);font-weight:500;text-transform:none;letter-spacing:normal}
+
+  .type-bars{display:flex;flex-direction:column;gap:10px}
+  .type-row{display:flex;align-items:center;gap:10px;font-size:13px}
+  .type-row .dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto}
+  .type-row .dot.binnen{background:#22c55e}
+  .type-row .dot.buiten{background:#f59e0b}
+  .type-row .dot.slaap{background:#8b5cf6}
+  .type-row .name{flex:0 0 90px;color:var(--text)}
+  .type-row .bar-bg{flex:1;height:8px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden;position:relative}
+  .type-row .bar-fill{height:100%;border-radius:4px;transition:width 0.5s ease}
+  .type-row .bar-fill.binnen{background:#22c55e}
+  .type-row .bar-fill.buiten{background:#f59e0b}
+  .type-row .bar-fill.slaap{background:#8b5cf6}
+  .type-row .count{flex:0 0 50px;text-align:right;color:var(--text-muted);font-weight:600;font-size:12px}
+
+  /* Last-30-days bar chart */
+  .days-chart{display:flex;align-items:flex-end;gap:2px;height:120px;padding:4px 0}
+  .day-bar{flex:1;background:linear-gradient(180deg,#22c55e,#16a34a);border-radius:2px 2px 0 0;min-height:2px;position:relative;cursor:pointer;opacity:0.85;transition:opacity 0.15s}
+  .day-bar:hover{opacity:1}
+  .day-bar.zero{background:rgba(255,255,255,0.04);min-height:2px}
+  .day-bar[data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:#0a0e1a;color:var(--text);padding:4px 8px;border-radius:6px;font-size:11px;white-space:nowrap;border:1px solid var(--border);z-index:10;margin-bottom:4px}
+  .days-axis{display:flex;justify-content:space-between;font-size:10px;color:var(--text-faint);margin-top:6px}
+
+  /* Hour-of-day heatmap */
+  .hour-grid{display:grid;grid-template-columns:repeat(24,1fr);gap:2px}
+  .hour-cell{aspect-ratio:1;border-radius:3px;background:rgba(255,255,255,0.04);font-size:9px;display:flex;align-items:center;justify-content:center;color:var(--text-faint);position:relative;cursor:pointer}
+  .hour-cell[data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:#0a0e1a;color:var(--text);padding:4px 8px;border-radius:6px;font-size:11px;white-space:nowrap;border:1px solid var(--border);z-index:10;margin-bottom:4px}
+  .hour-axis{display:grid;grid-template-columns:repeat(24,1fr);gap:2px;margin-top:6px}
+  .hour-axis span{text-align:center;font-size:9px;color:var(--text-faint)}
+
+  /* Action buttons */
+  .actions{display:flex;flex-direction:column;gap:10px;margin-top:24px}
+  .action-btn{display:flex;align-items:center;justify-content:center;gap:10px;border-radius:14px;padding:14px 18px;font:inherit;font-size:14px;font-weight:700;text-decoration:none;background:var(--surface);color:var(--text);border:1px solid var(--border);cursor:pointer}
+  .action-btn:active{transform:scale(0.98)}
+  .action-btn.danger{color:#fca5a5;border-color:rgba(220,38,38,0.3)}
+  .action-btn.danger:hover{background:rgba(220,38,38,0.05)}
+
+  .footer-meta{margin-top:24px;text-align:center;font-size:12px;color:var(--text-faint);padding:16px}
+  .footer-meta a{color:var(--text-muted);text-decoration:none}
+  .footer-meta .sep{margin:0 8px;opacity:0.5}
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+
+<div class="page page--narrow">
+  <nav class="navbar">
+    <a class="navbar-brand" href="/">
+      <svg viewBox="0 0 64 64" width="32" height="32"><rect width="64" height="64" rx="12" fill="#ffb800"/><path fill="#1a1300" d="M32 13l4 18 14 6-14 4-4 12-4-12-14-4 14-6z"/></svg>
+      MeldGeluidsoverlast
+    </a>
+    <a class="navbar-link" href="start.html">← Terug</a>
+  </nav>
+
+  <h1 style="font-size:28px;margin:0 0 4px;color:var(--accent,#ffb800);font-weight:800">Mijn meldingen</h1>
+  <p style="color:var(--text-muted,#9aa6bd);font-size:14px;margin:0 0 22px">Overzicht van je geluidsmeldingen aan Eindhoven Airport.</p>
+
+  <!-- Empty state (only shown if no data) -->
+  <div class="empty-state hidden" id="emptyState">
+    <h3>📭 Nog geen meldingen</h3>
+    <p>Zodra je je eerste melding indient verschijnen hier statistieken.</p>
+    <p style="margin-top:14px"><a href="start.html" style="color:var(--accent,#ffb800);font-weight:600">→ Verstuur je eerste melding</a></p>
+  </div>
+
+  <!-- Stats grid -->
+  <div class="stat-grid hidden" id="statsGrid">
+    <div class="stat-card featured">
+      <div class="num" id="statTotal">0</div>
+      <div class="label">Totaal aantal meldingen</div>
+    </div>
+    <div class="stat-card">
+      <div class="num" id="statToday">0</div>
+      <div class="label">Vandaag</div>
+    </div>
+    <div class="stat-card">
+      <div class="num" id="statWeek">0</div>
+      <div class="label">Deze week</div>
+    </div>
+    <div class="stat-card">
+      <div class="num" id="statMonth">0</div>
+      <div class="label">Deze maand</div>
+    </div>
+    <div class="stat-card">
+      <div class="num" id="statAvg">0</div>
+      <div class="label">Per week (gem.)</div>
+    </div>
+  </div>
+
+  <!-- Per-type breakdown -->
+  <div class="chart-card hidden" id="typeCard">
+    <h3>Verdeling per type <span class="meta" id="typeMeta"></span></h3>
+    <div class="type-bars" id="typeBars"></div>
+  </div>
+
+  <!-- Last 30 days -->
+  <div class="chart-card hidden" id="daysCard">
+    <h3>Laatste 30 dagen <span class="meta" id="daysMeta"></span></h3>
+    <div class="days-chart" id="daysChart"></div>
+    <div class="days-axis">
+      <span>30d geleden</span>
+      <span>15d</span>
+      <span>vandaag</span>
+    </div>
+  </div>
+
+  <!-- Hour-of-day heatmap -->
+  <div class="chart-card hidden" id="hoursCard">
+    <h3>Tijden van overlast <span class="meta">wanneer meld jij meestal?</span></h3>
+    <div class="hour-grid" id="hourGrid"></div>
+    <div class="hour-axis">
+      <span>0</span><span></span><span></span><span></span><span></span><span></span>
+      <span>6</span><span></span><span></span><span></span><span></span><span></span>
+      <span>12</span><span></span><span></span><span></span><span></span><span></span>
+      <span>18</span><span></span><span></span><span></span><span></span><span>23</span>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="actions">
+    <a class="action-btn" href="start.html">
+      <span>➜</span><span>Nog een melding versturen</span>
+    </a>
+    <button class="action-btn" type="button" id="exportBtn">
+      <span>⬇</span><span>Exporteer als JSON</span>
+    </button>
+    <button class="action-btn danger" type="button" id="clearBtn">
+      <span>🗑</span><span>Wis hele historie</span>
+    </button>
+  </div>
+
+  <p class="footer-meta">
+    Data alleen op je eigen apparaat (localStorage). Niet zichtbaar voor anderen.<br>
+    <a href="https://meldgeluidsoverlast.nl/">meldgeluidsoverlast.nl</a>
+    <span class="sep">·</span>
+    <a href="install.html">Installatie</a>
+  </p>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var TYPE_LABELS = {
+    binnen: 'Geluid binnen',
+    buiten: 'Geluid buiten',
+    slaap: 'Slaapverstoring'
+  };
+
+  function getHistory() {
+    try { return JSON.parse(localStorage.getItem('klacht-history') || '[]'); }
+    catch (e) { return []; }
+  }
+
+  function startOfDay(ts) {
+    var d = new Date(ts);
+    d.setHours(0, 0, 0, 0);
+    return d.getTime();
+  }
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function formatDate(ts) {
+    var d = new Date(ts);
+    return pad(d.getDate()) + '-' + pad(d.getMonth() + 1);
+  }
+
+  function render() {
+    var h = getHistory();
+
+    if (!h.length) {
+      document.getElementById('emptyState').classList.remove('hidden');
+      return;
+    }
+
+    document.getElementById('statsGrid').classList.remove('hidden');
+    document.getElementById('typeCard').classList.remove('hidden');
+    document.getElementById('daysCard').classList.remove('hidden');
+    document.getElementById('hoursCard').classList.remove('hidden');
+
+    var now = Date.now();
+    var todayStart = startOfDay(now);
+    var weekStart = todayStart - 6 * 24 * 60 * 60 * 1000;
+    var monthStart = todayStart - 29 * 24 * 60 * 60 * 1000;
+
+    // Counters
+    var today = h.filter(function (e) { return e.ts >= todayStart; }).length;
+    var week = h.filter(function (e) { return e.ts >= weekStart; }).length;
+    var month = h.filter(function (e) { return e.ts >= monthStart; }).length;
+    var total = h.length;
+    var firstTs = h.reduce(function (a, b) { return Math.min(a, b.ts); }, now);
+    var weeksActive = Math.max(1, (now - firstTs) / (7 * 24 * 60 * 60 * 1000));
+    var avgPerWeek = (total / weeksActive).toFixed(1);
+
+    document.getElementById('statTotal').textContent = total;
+    document.getElementById('statToday').textContent = today;
+    document.getElementById('statWeek').textContent = week;
+    document.getElementById('statMonth').textContent = month;
+    document.getElementById('statAvg').textContent = avgPerWeek;
+
+    // Per-type breakdown
+    var byType = { binnen: 0, buiten: 0, slaap: 0 };
+    h.forEach(function (e) { if (byType.hasOwnProperty(e.type)) byType[e.type]++; });
+    var maxType = Math.max(byType.binnen, byType.buiten, byType.slaap, 1);
+
+    var typeBars = document.getElementById('typeBars');
+    typeBars.innerHTML = '';
+    ['binnen', 'buiten', 'slaap'].forEach(function (type) {
+      var count = byType[type];
+      var pct = (count / maxType * 100).toFixed(1);
+      var pctTotal = total > 0 ? Math.round(count / total * 100) : 0;
+      var row = document.createElement('div');
+      row.className = 'type-row';
+      row.innerHTML =
+        '<div class="dot ' + type + '"></div>' +
+        '<div class="name">' + TYPE_LABELS[type] + '</div>' +
+        '<div class="bar-bg"><div class="bar-fill ' + type + '" style="width:' + pct + '%"></div></div>' +
+        '<div class="count">' + count + ' <small style="opacity:0.6">(' + pctTotal + '%)</small></div>';
+      typeBars.appendChild(row);
+    });
+    document.getElementById('typeMeta').textContent = total + ' totaal';
+
+    // Last 30 days bar chart
+    var days = [];
+    var maxDay = 0;
+    for (var i = 29; i >= 0; i--) {
+      var dayStart = todayStart - i * 24 * 60 * 60 * 1000;
+      var dayEnd = dayStart + 24 * 60 * 60 * 1000;
+      var count = h.filter(function (e) { return e.ts >= dayStart && e.ts < dayEnd; }).length;
+      days.push({ ts: dayStart, count: count });
+      if (count > maxDay) maxDay = count;
+    }
+
+    var daysChart = document.getElementById('daysChart');
+    daysChart.innerHTML = '';
+    days.forEach(function (d) {
+      var bar = document.createElement('div');
+      var height = maxDay > 0 ? (d.count / maxDay * 100) : 0;
+      bar.className = 'day-bar' + (d.count === 0 ? ' zero' : '');
+      bar.style.height = Math.max(2, height) + '%';
+      bar.dataset.tip = formatDate(d.ts) + ': ' + d.count + ' meld' + (d.count === 1 ? 'ing' : 'ingen');
+      daysChart.appendChild(bar);
+    });
+    var totalLast30 = days.reduce(function (s, d) { return s + d.count; }, 0);
+    document.getElementById('daysMeta').textContent = totalLast30 + ' totaal · piek ' + maxDay + '/dag';
+
+    // Hour-of-day heatmap (24 cells)
+    var hours = new Array(24).fill(0);
+    h.forEach(function (e) {
+      var hour = new Date(e.ts).getHours();
+      hours[hour]++;
+    });
+    var maxHour = Math.max.apply(null, hours.concat([1]));
+
+    var hourGrid = document.getElementById('hourGrid');
+    hourGrid.innerHTML = '';
+    hours.forEach(function (count, hour) {
+      var cell = document.createElement('div');
+      cell.className = 'hour-cell';
+      var intensity = maxHour > 0 ? (count / maxHour) : 0;
+      var color = 'rgba(255,184,0,' + (intensity * 0.85 + 0.04) + ')';
+      cell.style.background = color;
+      cell.dataset.tip = pad(hour) + ':00 — ' + count + ' meld' + (count === 1 ? 'ing' : 'ingen');
+      if (count > 0) cell.textContent = count;
+      hourGrid.appendChild(cell);
+    });
+  }
+
+  // Export
+  document.getElementById('exportBtn').addEventListener('click', function () {
+    var h = getHistory();
+    var blob = new Blob([JSON.stringify(h, null, 2)], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'meldgeluidsoverlast-historie-' + new Date().toISOString().slice(0, 10) + '.json';
+    a.click();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  });
+
+  // Clear
+  document.getElementById('clearBtn').addEventListener('click', function () {
+    if (confirm('Weet je zeker dat je je hele meld-historie wilt wissen? Dit kan niet ongedaan worden gemaakt.')) {
+      try { localStorage.removeItem('klacht-history'); } catch (e) {}
+      location.reload();
+    }
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
